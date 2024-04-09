@@ -1,0 +1,970 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "main.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .comm Timer_WD,4,4
+  20              	 .comm Timer_Regelung,4,4
+  21              	 .comm Timer_BUTTON,4,4
+  22              	 .global string
+  23              	 .section .data.string,"aw",%progbits
+  24              	 .align 2
+  27              	string:
+  28 0000 74657374 	 .ascii "test\000"
+  28      00
+  29 0005 00000000 	 .space 95
+  29      00000000 
+  29      00000000 
+  29      00000000 
+  29      00000000 
+  30              	 .global zaehlimpulse
+  31              	 .section .bss.zaehlimpulse,"aw",%nobits
+  32              	 .align 2
+  35              	zaehlimpulse:
+  36 0000 00000000 	 .space 4
+  37              	 .global speed_in_cms
+  38              	 .section .bss.speed_in_cms,"aw",%nobits
+  39              	 .align 2
+  42              	speed_in_cms:
+  43 0000 00000000 	 .space 4
+  44              	 .global faktor
+  45              	 .section .rodata.faktor,"a",%progbits
+  46              	 .align 2
+  49              	faktor:
+  50 0000 2C40AE3E 	 .word 1051607084
+  51              	 .global recieved
+  52              	 .section .bss.recieved,"aw",%nobits
+  53              	 .align 2
+  56              	recieved:
+  57 0000 00000000 	 .space 4
+  58              	 .global startbit
+  59              	 .section .bss.startbit,"aw",%nobits
+  62              	startbit:
+  63 0000 00       	 .space 1
+  64              	 .global fahr_geschwindigkeit_char
+  65              	 .section .bss.fahr_geschwindigkeit_char,"aw",%nobits
+  68              	fahr_geschwindigkeit_char:
+  69 0000 00       	 .space 1
+  70              	 .comm lenk_winkel,1,1
+  71              	 .global checksumme
+  72              	 .section .bss.checksumme,"aw",%nobits
+  75              	checksumme:
+  76 0000 00       	 .space 1
+  77              	 .global soll_fahr_geschwindigkeit
+  78              	 .section .bss.soll_fahr_geschwindigkeit,"aw",%nobits
+  79              	 .align 2
+  82              	soll_fahr_geschwindigkeit:
+  83 0000 00000000 	 .space 4
+  84              	 .global strecke_cm
+  85              	 .section .bss.strecke_cm,"aw",%nobits
+  86              	 .align 2
+  89              	strecke_cm:
+  90 0000 00000000 	 .space 4
+  91              	 .global abweichung
+  92              	 .section .bss.abweichung,"aw",%nobits
+  93              	 .align 2
+  96              	abweichung:
+  97 0000 00000000 	 .space 4
+  98              	 .global speed_nach_regler
+  99              	 .section .bss.speed_nach_regler,"aw",%nobits
+ 100              	 .align 2
+ 103              	speed_nach_regler:
+ 104 0000 00000000 	 .space 4
+ 105              	 .global pwm_lenkung_leerlauf
+ 106              	 .section .data.pwm_lenkung_leerlauf,"aw",%progbits
+ 107              	 .align 2
+ 110              	pwm_lenkung_leerlauf:
+ 111 0000 66030000 	 .word 870
+ 112              	 .global pwm_motor_leerlauf
+ 113              	 .section .data.pwm_motor_leerlauf,"aw",%progbits
+ 114              	 .align 2
+ 117              	pwm_motor_leerlauf:
+ 118 0000 66030000 	 .word 870
+ 119              	 .comm pwm,4,4
+ 120              	 .global reglerOutput
+ 121              	 .section .bss.reglerOutput,"aw",%nobits
+ 122              	 .align 2
+ 125              	reglerOutput:
+ 126 0000 00000000 	 .space 4
+ 127              	 .global Kp
+ 128              	 .section .bss.Kp,"aw",%nobits
+ 129              	 .align 2
+ 132              	Kp:
+ 133 0000 00000000 	 .space 4
+ 134              	 .global check
+ 135              	 .section .bss.check,"aw",%nobits
+ 136              	 .align 2
+ 139              	check:
+ 140 0000 00000000 	 .space 4
+ 141              	 .global fahr_infos
+ 142              	 .section .bss.fahr_infos,"aw",%nobits
+ 143              	 .align 2
+ 146              	fahr_infos:
+ 147 0000 00       	 .space 1
+ 148 0001 000000   	 .section .text.watch_dog,"ax",%progbits
+ 149              	 .align 2
+ 150              	 .global watch_dog
+ 151              	 .thumb
+ 152              	 .thumb_func
+ 154              	watch_dog:
+ 155              	.LFB495:
+ 156              	 .file 1 "../main.c"
+   1:../main.c     **** #include "DAVE.h"
+   2:../main.c     **** #include "ultraschall.h"
+   3:../main.c     **** #include "infrarot.h"
+   4:../main.c     **** #include "global.h"
+   5:../main.c     **** #define ONESEC 1000000U										//Watchdog Timer
+   6:../main.c     **** #define TENMILSEC 10000U									//Regelung jede 10ms
+   7:../main.c     **** #define HALFSEC 500000U
+   8:../main.c     **** 
+   9:../main.c     **** 
+  10:../main.c     **** 
+  11:../main.c     **** uint32_t Timer_WD, Timer_Regelung, Timer_BUTTON;			//Timers
+  12:../main.c     **** 
+  13:../main.c     **** uint8_t string[100] = "test";
+  14:../main.c     **** 
+  15:../main.c     **** int zaehlimpulse = 0;										//Zaehlimpulse Lichtschranke
+  16:../main.c     **** 
+  17:../main.c     **** 
+  18:../main.c     **** #define impulse_einer_umdrehung 60							//Eine Umdrehung = 60 Impulse
+  19:../main.c     **** float speed_in_cms = 0;										//V(ist) in cm/s
+  20:../main.c     **** #define u_rad_cm 20.42										//Radumdrehung
+  21:../main.c     **** const float faktor = u_rad_cm/impulse_einer_umdrehung;		//Fester Faktor für die Umrechnung der Ges
+  22:../main.c     **** 
+  23:../main.c     **** uint8_t recieved[4]= {0,0,0,0}; 							//Recieved UART ARRAY [startbit, geschwindigkeit, lenkwinkel
+  24:../main.c     **** 
+  25:../main.c     **** uint8_t startbit = 0;										//Startbit 0x01 (Pi auf Xmc)
+  26:../main.c     **** uint8_t fahr_geschwindigkeit_char = 0;						//Selektierte Geschwindigkeit 127=Leerlauf; 0 = Rückw�
+  27:../main.c     **** uint8_t lenk_winkel;									//Selektierter Lenkwinkel 127=Geradeaus; 0=Rechts; 255=Links
+  28:../main.c     **** uint8_t checksumme = 0;										//Checksumme Geschwindigkeit ^ Lenkwinkel (XOR)
+  29:../main.c     **** 
+  30:../main.c     **** float soll_fahr_geschwindigkeit = 0;						//V(soll) in cm/s
+  31:../main.c     **** 
+  32:../main.c     **** float strecke_cm = 0;										//Zurückgelegte Strecke
+  33:../main.c     **** 
+  34:../main.c     **** float abweichung = 0;										//V(soll) - v(ist)
+  35:../main.c     **** float speed_nach_regler= 0;									//V(geregelt)
+  36:../main.c     **** 
+  37:../main.c     **** int pwm_lenkung_leerlauf = 870;								//Leerlauf PWM (Lenkung)
+  38:../main.c     **** int pwm_motor_leerlauf = 870;								//Leerlauf PWM (Motor)
+  39:../main.c     **** int pwm;													//PWM (nach dem Regler)
+  40:../main.c     **** 
+  41:../main.c     **** int reglerOutput = 0;										//Regler Ausgang
+  42:../main.c     **** int Kp = 0.5;												//Regler P faktor
+  43:../main.c     **** 
+  44:../main.c     **** int check=0;												//Variable für den Testknopf
+  45:../main.c     **** 
+  46:../main.c     **** 
+  47:../main.c     **** uint8_t fahr_infos[1] = {0};						//Fahrinfos für den Raspi
+  48:../main.c     **** 
+  49:../main.c     **** 
+  50:../main.c     **** 
+  51:../main.c     **** 
+  52:../main.c     **** void watch_dog(void){
+ 157              	 .loc 1 52 0
+ 158              	 .cfi_startproc
+ 159              	 
+ 160              	 
+ 161 0000 80B5     	 push {r7,lr}
+ 162              	.LCFI0:
+ 163              	 .cfi_def_cfa_offset 8
+ 164              	 .cfi_offset 7,-8
+ 165              	 .cfi_offset 14,-4
+ 166 0002 00AF     	 add r7,sp,#0
+ 167              	.LCFI1:
+ 168              	 .cfi_def_cfa_register 7
+  53:../main.c     **** 	//Falls nach 1s kein Inputbefehl gibt, wird alles in Leerlauf gesetzt
+  54:../main.c     **** 	PWM_SetDutyCycle(&PWM_LENKUNG, pwm_lenkung_leerlauf);
+ 169              	 .loc 1 54 0
+ 170 0004 074B     	 ldr r3,.L2
+ 171 0006 1B68     	 ldr r3,[r3]
+ 172 0008 0748     	 ldr r0,.L2+4
+ 173 000a 1946     	 mov r1,r3
+ 174 000c FFF7FEFF 	 bl PWM_SetDutyCycle
+  55:../main.c     **** 	soll_fahr_geschwindigkeit = 0;
+ 175              	 .loc 1 55 0
+ 176 0010 064B     	 ldr r3,.L2+8
+ 177 0012 4FF00002 	 mov r2,#0
+ 178 0016 1A60     	 str r2,[r3]
+  56:../main.c     **** 	SYSTIMER_StopTimer(Timer_WD);
+ 179              	 .loc 1 56 0
+ 180 0018 054B     	 ldr r3,.L2+12
+ 181 001a 1B68     	 ldr r3,[r3]
+ 182 001c 1846     	 mov r0,r3
+ 183 001e FFF7FEFF 	 bl SYSTIMER_StopTimer
+  57:../main.c     **** }
+ 184              	 .loc 1 57 0
+ 185 0022 80BD     	 pop {r7,pc}
+ 186              	.L3:
+ 187              	 .align 2
+ 188              	.L2:
+ 189 0024 00000000 	 .word pwm_lenkung_leerlauf
+ 190 0028 00000000 	 .word PWM_LENKUNG
+ 191 002c 00000000 	 .word soll_fahr_geschwindigkeit
+ 192 0030 00000000 	 .word Timer_WD
+ 193              	 .cfi_endproc
+ 194              	.LFE495:
+ 196              	 .global __aeabi_f2d
+ 197              	 .global __aeabi_dmul
+ 198              	 .global __aeabi_dadd
+ 199              	 .global __aeabi_d2iz
+ 200              	 .section .text.regelung,"ax",%progbits
+ 201              	 .align 2
+ 202              	 .global regelung
+ 203              	 .thumb
+ 204              	 .thumb_func
+ 206              	regelung:
+ 207              	.LFB496:
+  58:../main.c     **** 
+  59:../main.c     **** int regelung(){
+ 208              	 .loc 1 59 0
+ 209              	 .cfi_startproc
+ 210              	 
+ 211              	 
+ 212 0000 80B5     	 push {r7,lr}
+ 213              	.LCFI2:
+ 214              	 .cfi_def_cfa_offset 8
+ 215              	 .cfi_offset 7,-8
+ 216              	 .cfi_offset 14,-4
+ 217 0002 00AF     	 add r7,sp,#0
+ 218              	.LCFI3:
+ 219              	 .cfi_def_cfa_register 7
+  60:../main.c     **** 	//DIGITAL_IO_ToggleOutput(&LED_TEST);
+  61:../main.c     **** 	abweichung = soll_fahr_geschwindigkeit - speed_in_cms;		// e
+ 220              	 .loc 1 61 0
+ 221 0004 224B     	 ldr r3,.L5+16
+ 222 0006 93ED007A 	 flds s14,[r3]
+ 223 000a 224B     	 ldr r3,.L5+20
+ 224 000c D3ED007A 	 flds s15,[r3]
+ 225 0010 77EE677A 	 fsubs s15,s14,s15
+ 226 0014 204B     	 ldr r3,.L5+24
+ 227 0016 C3ED007A 	 fsts s15,[r3]
+  62:../main.c     **** 	speed_nach_regler = abweichung * 0.5;  						// e * Kp (geregelte Geschwindigkeit)
+ 228              	 .loc 1 62 0
+ 229 001a 1F4B     	 ldr r3,.L5+24
+ 230 001c D3ED007A 	 flds s15,[r3]
+ 231 0020 B6EE007A 	 fconsts s14,#96
+ 232 0024 67EE877A 	 fmuls s15,s15,s14
+ 233 0028 1C4B     	 ldr r3,.L5+28
+ 234 002a C3ED007A 	 fsts s15,[r3]
+  63:../main.c     **** 	pwm = (speed_nach_regler*0.24)+895.4;						// pwm wird neu gesetzt
+ 235              	 .loc 1 63 0
+ 236 002e 1B4B     	 ldr r3,.L5+28
+ 237 0030 1B68     	 ldr r3,[r3]
+ 238 0032 1846     	 mov r0,r3
+ 239 0034 FFF7FEFF 	 bl __aeabi_f2d
+ 240 0038 0246     	 mov r2,r0
+ 241 003a 0B46     	 mov r3,r1
+ 242 003c 1046     	 mov r0,r2
+ 243 003e 1946     	 mov r1,r3
+ 244 0040 0FA3     	 adr r3,.L5
+ 245 0042 D3E90023 	 ldrd r2,[r3]
+ 246 0046 FFF7FEFF 	 bl __aeabi_dmul
+ 247 004a 0246     	 mov r2,r0
+ 248 004c 0B46     	 mov r3,r1
+ 249 004e 1046     	 mov r0,r2
+ 250 0050 1946     	 mov r1,r3
+ 251 0052 0DA3     	 adr r3,.L5+8
+ 252 0054 D3E90023 	 ldrd r2,[r3]
+ 253 0058 FFF7FEFF 	 bl __aeabi_dadd
+ 254 005c 0246     	 mov r2,r0
+ 255 005e 0B46     	 mov r3,r1
+ 256 0060 1046     	 mov r0,r2
+ 257 0062 1946     	 mov r1,r3
+ 258 0064 FFF7FEFF 	 bl __aeabi_d2iz
+ 259 0068 0246     	 mov r2,r0
+ 260 006a 0D4B     	 ldr r3,.L5+32
+ 261 006c 1A60     	 str r2,[r3]
+  64:../main.c     **** 	PWM_SetDutyCycle(&PWM_MOTOR, pwm);
+ 262              	 .loc 1 64 0
+ 263 006e 0C4B     	 ldr r3,.L5+32
+ 264 0070 1B68     	 ldr r3,[r3]
+ 265 0072 0C48     	 ldr r0,.L5+36
+ 266 0074 1946     	 mov r1,r3
+ 267 0076 FFF7FEFF 	 bl PWM_SetDutyCycle
+  65:../main.c     **** }
+ 268              	 .loc 1 65 0
+ 269 007a 1846     	 mov r0,r3
+ 270 007c 80BD     	 pop {r7,pc}
+ 271              	.L6:
+ 272 007e 00BF     	 .align 3
+ 273              	.L5:
+ 274 0080 B81E85EB 	 .word -343597384
+ 275 0084 51B8CE3F 	 .word 1070512209
+ 276 0088 33333333 	 .word 858993459
+ 277 008c 33FB8B40 	 .word 1082915635
+ 278 0090 00000000 	 .word soll_fahr_geschwindigkeit
+ 279 0094 00000000 	 .word speed_in_cms
+ 280 0098 00000000 	 .word abweichung
+ 281 009c 00000000 	 .word speed_nach_regler
+ 282 00a0 00000000 	 .word pwm
+ 283 00a4 00000000 	 .word PWM_MOTOR
+ 284              	 .cfi_endproc
+ 285              	.LFE496:
+ 287              	 .global __aeabi_i2d
+ 288              	 .global __aeabi_dsub
+ 289              	 .global __aeabi_d2f
+ 290              	 .section .text.set_speed,"ax",%progbits
+ 291              	 .align 2
+ 292              	 .global set_speed
+ 293              	 .thumb
+ 294              	 .thumb_func
+ 296              	set_speed:
+ 297              	.LFB497:
+  66:../main.c     **** 
+  67:../main.c     **** void set_speed(int speed_char){
+ 298              	 .loc 1 67 0
+ 299              	 .cfi_startproc
+ 300              	 
+ 301              	 
+ 302 0000 80B5     	 push {r7,lr}
+ 303              	.LCFI4:
+ 304              	 .cfi_def_cfa_offset 8
+ 305              	 .cfi_offset 7,-8
+ 306              	 .cfi_offset 14,-4
+ 307 0002 82B0     	 sub sp,sp,#8
+ 308              	.LCFI5:
+ 309              	 .cfi_def_cfa_offset 16
+ 310 0004 00AF     	 add r7,sp,#0
+ 311              	.LCFI6:
+ 312              	 .cfi_def_cfa_register 7
+ 313 0006 7860     	 str r0,[r7,#4]
+  68:../main.c     **** 	//die Umrechung von speed_char in cm/s
+  69:../main.c     **** 	if(speed_char<155){
+ 314              	 .loc 1 69 0
+ 315 0008 7B68     	 ldr r3,[r7,#4]
+ 316 000a 9A2B     	 cmp r3,#154
+ 317 000c 04DC     	 bgt .L8
+  70:../main.c     **** 		soll_fahr_geschwindigkeit = 0;							//Schwellwert
+ 318              	 .loc 1 70 0
+ 319 000e 164B     	 ldr r3,.L10+8
+ 320 0010 4FF00002 	 mov r2,#0
+ 321 0014 1A60     	 str r2,[r3]
+ 322 0016 1DE0     	 b .L7
+ 323              	.L8:
+  71:../main.c     **** 	}else{
+  72:../main.c     **** 		soll_fahr_geschwindigkeit = (6.92*speed_char)-982;		//Rechnung fuer die Soll Geschwindigkeit
+ 324              	 .loc 1 72 0
+ 325 0018 7868     	 ldr r0,[r7,#4]
+ 326 001a FFF7FEFF 	 bl __aeabi_i2d
+ 327 001e 0246     	 mov r2,r0
+ 328 0020 0B46     	 mov r3,r1
+ 329 0022 1046     	 mov r0,r2
+ 330 0024 1946     	 mov r1,r3
+ 331 0026 0EA3     	 adr r3,.L10
+ 332 0028 D3E90023 	 ldrd r2,[r3]
+ 333 002c FFF7FEFF 	 bl __aeabi_dmul
+ 334 0030 0246     	 mov r2,r0
+ 335 0032 0B46     	 mov r3,r1
+ 336 0034 1046     	 mov r0,r2
+ 337 0036 1946     	 mov r1,r3
+ 338 0038 4FF00002 	 mov r2,#0
+ 339 003c 0B4B     	 ldr r3,.L10+12
+ 340 003e FFF7FEFF 	 bl __aeabi_dsub
+ 341 0042 0246     	 mov r2,r0
+ 342 0044 0B46     	 mov r3,r1
+ 343 0046 1046     	 mov r0,r2
+ 344 0048 1946     	 mov r1,r3
+ 345 004a FFF7FEFF 	 bl __aeabi_d2f
+ 346 004e 0246     	 mov r2,r0
+ 347 0050 054B     	 ldr r3,.L10+8
+ 348 0052 1A60     	 str r2,[r3]
+ 349              	.L7:
+  73:../main.c     **** 	}
+  74:../main.c     **** 
+  75:../main.c     **** }
+ 350              	 .loc 1 75 0
+ 351 0054 0837     	 adds r7,r7,#8
+ 352              	.LCFI7:
+ 353              	 .cfi_def_cfa_offset 8
+ 354 0056 BD46     	 mov sp,r7
+ 355              	.LCFI8:
+ 356              	 .cfi_def_cfa_register 13
+ 357              	 
+ 358 0058 80BD     	 pop {r7,pc}
+ 359              	.L11:
+ 360 005a 00BFAFF3 	 .align 3
+ 360      0080
+ 361              	.L10:
+ 362 0060 AE47E17A 	 .word 2061584302
+ 363 0064 14AE1B40 	 .word 1075555860
+ 364 0068 00000000 	 .word soll_fahr_geschwindigkeit
+ 365 006c 00B08E40 	 .word 1083092992
+ 366              	 .cfi_endproc
+ 367              	.LFE497:
+ 369              	 .section .text.pwm_set_lenkung,"ax",%progbits
+ 370              	 .align 2
+ 371              	 .global pwm_set_lenkung
+ 372              	 .thumb
+ 373              	 .thumb_func
+ 375              	pwm_set_lenkung:
+ 376              	.LFB498:
+  76:../main.c     **** 
+  77:../main.c     **** void pwm_set_lenkung(int winkel){
+ 377              	 .loc 1 77 0
+ 378              	 .cfi_startproc
+ 379              	 
+ 380              	 
+ 381 0000 80B5     	 push {r7,lr}
+ 382              	.LCFI9:
+ 383              	 .cfi_def_cfa_offset 8
+ 384              	 .cfi_offset 7,-8
+ 385              	 .cfi_offset 14,-4
+ 386 0002 84B0     	 sub sp,sp,#16
+ 387              	.LCFI10:
+ 388              	 .cfi_def_cfa_offset 24
+ 389 0004 00AF     	 add r7,sp,#0
+ 390              	.LCFI11:
+ 391              	 .cfi_def_cfa_register 7
+ 392 0006 7860     	 str r0,[r7,#4]
+  78:../main.c     **** 
+  79:../main.c     **** 	int pwm = (winkel*1.3)+700;									//Pwm der Lenkung gesetzt
+ 393              	 .loc 1 79 0
+ 394 0008 7868     	 ldr r0,[r7,#4]
+ 395 000a FFF7FEFF 	 bl __aeabi_i2d
+ 396 000e 0246     	 mov r2,r0
+ 397 0010 0B46     	 mov r3,r1
+ 398 0012 1046     	 mov r0,r2
+ 399 0014 1946     	 mov r1,r3
+ 400 0016 12A3     	 adr r3,.L13+8
+ 401 0018 D3E90023 	 ldrd r2,[r3]
+ 402 001c FFF7FEFF 	 bl __aeabi_dmul
+ 403 0020 0246     	 mov r2,r0
+ 404 0022 0B46     	 mov r3,r1
+ 405 0024 1046     	 mov r0,r2
+ 406 0026 1946     	 mov r1,r3
+ 407 0028 4FF00002 	 mov r2,#0
+ 408 002c 0A4B     	 ldr r3,.L13
+ 409 002e FFF7FEFF 	 bl __aeabi_dadd
+ 410 0032 0246     	 mov r2,r0
+ 411 0034 0B46     	 mov r3,r1
+ 412 0036 1046     	 mov r0,r2
+ 413 0038 1946     	 mov r1,r3
+ 414 003a FFF7FEFF 	 bl __aeabi_d2iz
+ 415 003e 0346     	 mov r3,r0
+ 416 0040 FB60     	 str r3,[r7,#12]
+  80:../main.c     **** 	PWM_SetDutyCycle(&PWM_LENKUNG, pwm);
+ 417              	 .loc 1 80 0
+ 418 0042 FB68     	 ldr r3,[r7,#12]
+ 419 0044 0548     	 ldr r0,.L13+4
+ 420 0046 1946     	 mov r1,r3
+ 421 0048 FFF7FEFF 	 bl PWM_SetDutyCycle
+  81:../main.c     **** 
+  82:../main.c     **** }
+ 422              	 .loc 1 82 0
+ 423 004c 1037     	 adds r7,r7,#16
+ 424              	.LCFI12:
+ 425              	 .cfi_def_cfa_offset 8
+ 426 004e BD46     	 mov sp,r7
+ 427              	.LCFI13:
+ 428              	 .cfi_def_cfa_register 13
+ 429              	 
+ 430 0050 80BD     	 pop {r7,pc}
+ 431              	.L14:
+ 432 0052 00BFAFF3 	 .align 3
+ 432      0080
+ 433              	.L13:
+ 434 0058 00E08540 	 .word 1082515456
+ 435 005c 00000000 	 .word PWM_LENKUNG
+ 436 0060 CDCCCCCC 	 .word -858993459
+ 437 0064 CCCCF43F 	 .word 1073007820
+ 438              	 .cfi_endproc
+ 439              	.LFE498:
+ 441              	 .section .text.ERU0_3_IRQHandler,"ax",%progbits
+ 442              	 .align 2
+ 443              	 .global ERU0_3_IRQHandler
+ 444              	 .thumb
+ 445              	 .thumb_func
+ 447              	ERU0_3_IRQHandler:
+ 448              	.LFB499:
+  83:../main.c     **** 
+  84:../main.c     **** void impulse_lichtschranke(void){
+ 449              	 .loc 1 84 0
+ 450              	 .cfi_startproc
+ 451              	 
+ 452              	 
+ 453              	 
+ 454 0000 80B4     	 push {r7}
+ 455              	.LCFI14:
+ 456              	 .cfi_def_cfa_offset 4
+ 457              	 .cfi_offset 7,-4
+ 458 0002 00AF     	 add r7,sp,#0
+ 459              	.LCFI15:
+ 460              	 .cfi_def_cfa_register 7
+  85:../main.c     **** 	zaehlimpulse++;												//Impulse hochzaehlen
+ 461              	 .loc 1 85 0
+ 462 0004 044B     	 ldr r3,.L16
+ 463 0006 1B68     	 ldr r3,[r3]
+ 464 0008 0133     	 adds r3,r3,#1
+ 465 000a 034A     	 ldr r2,.L16
+ 466 000c 1360     	 str r3,[r2]
+  86:../main.c     **** 
+  87:../main.c     **** }
+ 467              	 .loc 1 87 0
+ 468 000e BD46     	 mov sp,r7
+ 469              	.LCFI16:
+ 470              	 .cfi_def_cfa_register 13
+ 471              	 
+ 472 0010 5DF8047B 	 ldr r7,[sp],#4
+ 473              	.LCFI17:
+ 474              	 .cfi_restore 7
+ 475              	 .cfi_def_cfa_offset 0
+ 476 0014 7047     	 bx lr
+ 477              	.L17:
+ 478 0016 00BF     	 .align 2
+ 479              	.L16:
+ 480 0018 00000000 	 .word zaehlimpulse
+ 481              	 .cfi_endproc
+ 482              	.LFE499:
+ 484              	 .section .text.CCU42_1_IRQHandler,"ax",%progbits
+ 485              	 .align 2
+ 486              	 .global CCU42_1_IRQHandler
+ 487              	 .thumb
+ 488              	 .thumb_func
+ 490              	CCU42_1_IRQHandler:
+ 491              	.LFB500:
+  88:../main.c     **** 
+  89:../main.c     **** 
+  90:../main.c     **** void Geschwindigkeit(void){
+ 492              	 .loc 1 90 0
+ 493              	 .cfi_startproc
+ 494              	 
+ 495              	 
+ 496 0000 B0B5     	 push {r4,r5,r7,lr}
+ 497              	.LCFI18:
+ 498              	 .cfi_def_cfa_offset 16
+ 499              	 .cfi_offset 4,-16
+ 500              	 .cfi_offset 5,-12
+ 501              	 .cfi_offset 7,-8
+ 502              	 .cfi_offset 14,-4
+ 503 0002 00AF     	 add r7,sp,#0
+ 504              	.LCFI19:
+ 505              	 .cfi_def_cfa_register 7
+  91:../main.c     **** 	speed_in_cms = (float)zaehlimpulse*faktor*2; 				//passiert jede 500ms
+ 506              	 .loc 1 91 0
+ 507 0004 1B4B     	 ldr r3,.L19
+ 508 0006 1B68     	 ldr r3,[r3]
+ 509 0008 07EE903A 	 fmsr s15,r3
+ 510 000c F8EEE77A 	 fsitos s15,s15
+ 511 0010 9FED197A 	 flds s14,.L19+4
+ 512 0014 67EE877A 	 fmuls s15,s15,s14
+ 513 0018 77EEA77A 	 fadds s15,s15,s15
+ 514 001c 174B     	 ldr r3,.L19+8
+ 515 001e C3ED007A 	 fsts s15,[r3]
+  92:../main.c     **** 																//Multiplikation mit 2 ist gleich Division durch 0.5s
+  93:../main.c     **** 																//Zaehlimpulse* Faktor ist gleich die zuruckgelegte Strecke in der Zeit
+  94:../main.c     **** 	strecke_cm = strecke_cm + (speed_in_cms*0.5);				//Zurückgelegte Strecke
+ 516              	 .loc 1 94 0
+ 517 0022 174B     	 ldr r3,.L19+12
+ 518 0024 1B68     	 ldr r3,[r3]
+ 519 0026 1846     	 mov r0,r3
+ 520 0028 FFF7FEFF 	 bl __aeabi_f2d
+ 521 002c 0446     	 mov r4,r0
+ 522 002e 0D46     	 mov r5,r1
+ 523 0030 124B     	 ldr r3,.L19+8
+ 524 0032 1B68     	 ldr r3,[r3]
+ 525 0034 1846     	 mov r0,r3
+ 526 0036 FFF7FEFF 	 bl __aeabi_f2d
+ 527 003a 0246     	 mov r2,r0
+ 528 003c 0B46     	 mov r3,r1
+ 529 003e 1046     	 mov r0,r2
+ 530 0040 1946     	 mov r1,r3
+ 531 0042 4FF00002 	 mov r2,#0
+ 532 0046 0F4B     	 ldr r3,.L19+16
+ 533 0048 FFF7FEFF 	 bl __aeabi_dmul
+ 534 004c 0246     	 mov r2,r0
+ 535 004e 0B46     	 mov r3,r1
+ 536 0050 2046     	 mov r0,r4
+ 537 0052 2946     	 mov r1,r5
+ 538 0054 FFF7FEFF 	 bl __aeabi_dadd
+ 539 0058 0246     	 mov r2,r0
+ 540 005a 0B46     	 mov r3,r1
+ 541 005c 1046     	 mov r0,r2
+ 542 005e 1946     	 mov r1,r3
+ 543 0060 FFF7FEFF 	 bl __aeabi_d2f
+ 544 0064 0246     	 mov r2,r0
+ 545 0066 064B     	 ldr r3,.L19+12
+ 546 0068 1A60     	 str r2,[r3]
+  95:../main.c     **** 	zaehlimpulse = 0;
+ 547              	 .loc 1 95 0
+ 548 006a 024B     	 ldr r3,.L19
+ 549 006c 0022     	 movs r2,#0
+ 550 006e 1A60     	 str r2,[r3]
+  96:../main.c     **** 
+  97:../main.c     **** }
+ 551              	 .loc 1 97 0
+ 552 0070 B0BD     	 pop {r4,r5,r7,pc}
+ 553              	.L20:
+ 554 0072 00BF     	 .align 2
+ 555              	.L19:
+ 556 0074 00000000 	 .word zaehlimpulse
+ 557 0078 2C40AE3E 	 .word 1051607084
+ 558 007c 00000000 	 .word speed_in_cms
+ 559 0080 00000000 	 .word strecke_cm
+ 560 0084 0000E03F 	 .word 1071644672
+ 561              	 .cfi_endproc
+ 562              	.LFE500:
+ 564              	 .section .text.main,"ax",%progbits
+ 565              	 .align 2
+ 566              	 .global main
+ 567              	 .thumb
+ 568              	 .thumb_func
+ 570              	main:
+ 571              	.LFB501:
+  98:../main.c     **** 
+  99:../main.c     **** 
+ 100:../main.c     **** int main(void)
+ 101:../main.c     **** {
+ 572              	 .loc 1 101 0
+ 573              	 .cfi_startproc
+ 574              	 
+ 575              	 
+ 576 0000 80B5     	 push {r7,lr}
+ 577              	.LCFI20:
+ 578              	 .cfi_def_cfa_offset 8
+ 579              	 .cfi_offset 7,-8
+ 580              	 .cfi_offset 14,-4
+ 581 0002 82B0     	 sub sp,sp,#8
+ 582              	.LCFI21:
+ 583              	 .cfi_def_cfa_offset 16
+ 584 0004 00AF     	 add r7,sp,#0
+ 585              	.LCFI22:
+ 586              	 .cfi_def_cfa_register 7
+ 102:../main.c     ****   DAVE_STATUS_t status;
+ 103:../main.c     ****   status = DAVE_Init();           /* Initialization of DAVE APPs  */
+ 587              	 .loc 1 103 0
+ 588 0006 FFF7FEFF 	 bl DAVE_Init
+ 589 000a 0346     	 mov r3,r0
+ 590 000c FB71     	 strb r3,[r7,#7]
+ 104:../main.c     ****   Ultraschall_Init();
+ 591              	 .loc 1 104 0
+ 592 000e FFF7FEFF 	 bl Ultraschall_Init
+ 105:../main.c     ****   Infrarot_Init();
+ 593              	 .loc 1 105 0
+ 594 0012 FFF7FEFF 	 bl Infrarot_Init
+ 106:../main.c     ****   if (status != DAVE_STATUS_SUCCESS)
+ 595              	 .loc 1 106 0
+ 596 0016 FB79     	 ldrb r3,[r7,#7]
+ 597 0018 002B     	 cmp r3,#0
+ 598 001a 00D0     	 beq .L22
+ 599              	.L23:
+ 107:../main.c     ****   {
+ 108:../main.c     ****     XMC_DEBUG("DAVE APPs initialization failed\n");
+ 109:../main.c     ****     while(1U)
+ 110:../main.c     ****     {
+ 111:../main.c     **** 
+ 112:../main.c     **** 
+ 113:../main.c     ****     }
+ 600              	 .loc 1 113 0 discriminator 1
+ 601 001c FEE7     	 b .L23
+ 602              	.L22:
+ 114:../main.c     ****   }
+ 115:../main.c     **** 
+ 116:../main.c     ****   Timer_WD = (uint32_t)SYSTIMER_CreateTimer(ONESEC,SYSTIMER_MODE_PERIODIC,(void*)watch_dog,NULL);		
+ 603              	 .loc 1 116 0
+ 604 001e 3848     	 ldr r0,.L32
+ 605 0020 0121     	 movs r1,#1
+ 606 0022 384A     	 ldr r2,.L32+4
+ 607 0024 0023     	 movs r3,#0
+ 608 0026 FFF7FEFF 	 bl SYSTIMER_CreateTimer
+ 609 002a 0246     	 mov r2,r0
+ 610 002c 364B     	 ldr r3,.L32+8
+ 611 002e 1A60     	 str r2,[r3]
+ 117:../main.c     ****   Timer_Regelung = (uint32_t)SYSTIMER_CreateTimer(TENMILSEC,SYSTIMER_MODE_PERIODIC,(void*)regelung,
+ 612              	 .loc 1 117 0
+ 613 0030 42F21070 	 movw r0,#10000
+ 614 0034 0121     	 movs r1,#1
+ 615 0036 354A     	 ldr r2,.L32+12
+ 616 0038 0023     	 movs r3,#0
+ 617 003a FFF7FEFF 	 bl SYSTIMER_CreateTimer
+ 618 003e 0246     	 mov r2,r0
+ 619 0040 334B     	 ldr r3,.L32+16
+ 620 0042 1A60     	 str r2,[r3]
+ 118:../main.c     ****   SYSTIMER_StartTimer(Timer_Regelung);
+ 621              	 .loc 1 118 0
+ 622 0044 324B     	 ldr r3,.L32+16
+ 623 0046 1B68     	 ldr r3,[r3]
+ 624 0048 1846     	 mov r0,r3
+ 625 004a FFF7FEFF 	 bl SYSTIMER_StartTimer
+ 626              	.L29:
+ 119:../main.c     **** 
+ 120:../main.c     ****   //DIGITAL_IO_ToggleOutput(&LED_TEST);
+ 121:../main.c     **** 
+ 122:../main.c     **** 
+ 123:../main.c     ****   while(1U)
+ 124:../main.c     ****   {
+ 125:../main.c     **** 
+ 126:../main.c     **** 	  if(UART_Receive(&UART_PROTOKOLL,&recieved, 4) == UART_STATUS_SUCCESS)
+ 627              	 .loc 1 126 0
+ 628 004e 3148     	 ldr r0,.L32+20
+ 629 0050 3149     	 ldr r1,.L32+24
+ 630 0052 0422     	 movs r2,#4
+ 631 0054 FFF7FEFF 	 bl UART_Receive
+ 632 0058 0346     	 mov r3,r0
+ 633 005a 002B     	 cmp r3,#0
+ 634 005c 4FD1     	 bne .L24
+ 127:../main.c     **** 	         {
+ 128:../main.c     **** 
+ 129:../main.c     **** 		  	  	  startbit = recieved[0];							//0. Byte enthält den Startbit
+ 635              	 .loc 1 129 0
+ 636 005e 2E4B     	 ldr r3,.L32+24
+ 637 0060 1A78     	 ldrb r2,[r3]
+ 638 0062 2E4B     	 ldr r3,.L32+28
+ 639 0064 1A70     	 strb r2,[r3]
+ 130:../main.c     **** 		  	  	  if(startbit == 0x01){
+ 640              	 .loc 1 130 0
+ 641 0066 2D4B     	 ldr r3,.L32+28
+ 642 0068 1B78     	 ldrb r3,[r3]
+ 643 006a 012B     	 cmp r3,#1
+ 644 006c 47D1     	 bne .L24
+ 131:../main.c     **** 		  	  		fahr_geschwindigkeit_char = recieved[1]; 		//1.Byte beinhaltet Fahrgeschwindigkeit
+ 645              	 .loc 1 131 0
+ 646 006e 2A4B     	 ldr r3,.L32+24
+ 647 0070 5A78     	 ldrb r2,[r3,#1]
+ 648 0072 2B4B     	 ldr r3,.L32+32
+ 649 0074 1A70     	 strb r2,[r3]
+ 132:../main.c     **** 		  	  		lenk_winkel = recieved[2];						//2.Byte beinhaltet Lenkwinkel
+ 650              	 .loc 1 132 0
+ 651 0076 284B     	 ldr r3,.L32+24
+ 652 0078 9A78     	 ldrb r2,[r3,#2]
+ 653 007a 2A4B     	 ldr r3,.L32+36
+ 654 007c 1A70     	 strb r2,[r3]
+ 133:../main.c     **** 		  	  		checksumme = recieved[3];						//Checksumme (1. XOR 2.)
+ 655              	 .loc 1 133 0
+ 656 007e 264B     	 ldr r3,.L32+24
+ 657 0080 DA78     	 ldrb r2,[r3,#3]
+ 658 0082 294B     	 ldr r3,.L32+40
+ 659 0084 1A70     	 strb r2,[r3]
+ 134:../main.c     **** 		  	  		if(checksumme == (fahr_geschwindigkeit_char ^ lenk_winkel)){
+ 660              	 .loc 1 134 0
+ 661 0086 264B     	 ldr r3,.L32+32
+ 662 0088 1A78     	 ldrb r2,[r3]
+ 663 008a 264B     	 ldr r3,.L32+36
+ 664 008c 1B78     	 ldrb r3,[r3]
+ 665 008e 5340     	 eors r3,r3,r2
+ 666 0090 DAB2     	 uxtb r2,r3
+ 667 0092 254B     	 ldr r3,.L32+40
+ 668 0094 1B78     	 ldrb r3,[r3]
+ 669 0096 9A42     	 cmp r2,r3
+ 670 0098 25D1     	 bne .L25
+ 135:../main.c     **** 		  	  			//Aktoren gesetzt
+ 136:../main.c     **** 		  	  			if(distance>=20){							//Falls kein Hindernis sich 20m vor dem Auto befindet:
+ 671              	 .loc 1 136 0
+ 672 009a 244B     	 ldr r3,.L32+44
+ 673 009c D3ED007A 	 flds s15,[r3]
+ 674 00a0 B3EE047A 	 fconsts s14,#52
+ 675 00a4 F4EEC77A 	 fcmpes s15,s14
+ 676 00a8 F1EE10FA 	 fmstat
+ 677 00ac 0ADB     	 blt .L31
+ 137:../main.c     **** 		  	  				set_speed(fahr_geschwindigkeit_char);	//Soll geschwindigkeit gesetzt
+ 678              	 .loc 1 137 0
+ 679 00ae 1C4B     	 ldr r3,.L32+32
+ 680 00b0 1B78     	 ldrb r3,[r3]
+ 681 00b2 1846     	 mov r0,r3
+ 682 00b4 FFF7FEFF 	 bl set_speed
+ 138:../main.c     **** 		  	  				pwm_set_lenkung(lenk_winkel);			//PWM Dutycycle für den Lenkwinkel wird gesetzt
+ 683              	 .loc 1 138 0
+ 684 00b8 1A4B     	 ldr r3,.L32+36
+ 685 00ba 1B78     	 ldrb r3,[r3]
+ 686 00bc 1846     	 mov r0,r3
+ 687 00be FFF7FEFF 	 bl pwm_set_lenkung
+ 688 00c2 09E0     	 b .L28
+ 689              	.L31:
+ 139:../main.c     **** 		  	  			}else{
+ 140:../main.c     **** 		  	  				set_speed(pwm_motor_leerlauf);			//Falls es nicht stimmt dann sollte das Auto stehenblei
+ 690              	 .loc 1 140 0
+ 691 00c4 1A4B     	 ldr r3,.L32+48
+ 692 00c6 1B68     	 ldr r3,[r3]
+ 693 00c8 1846     	 mov r0,r3
+ 694 00ca FFF7FEFF 	 bl set_speed
+ 141:../main.c     **** 		  	  				pwm_set_lenkung(lenk_winkel);
+ 695              	 .loc 1 141 0
+ 696 00ce 154B     	 ldr r3,.L32+36
+ 697 00d0 1B78     	 ldrb r3,[r3]
+ 698 00d2 1846     	 mov r0,r3
+ 699 00d4 FFF7FEFF 	 bl pwm_set_lenkung
+ 700              	.L28:
+ 142:../main.c     **** 		  	  			}
+ 143:../main.c     **** 
+ 144:../main.c     **** 		  	  			SYSTIMER_RestartTimer(Timer_WD,ONESEC);		//watchdog timer neugestartet
+ 701              	 .loc 1 144 0
+ 702 00d8 0B4B     	 ldr r3,.L32+8
+ 703 00da 1B68     	 ldr r3,[r3]
+ 704 00dc 1846     	 mov r0,r3
+ 705 00de 0849     	 ldr r1,.L32
+ 706 00e0 FFF7FEFF 	 bl SYSTIMER_RestartTimer
+ 707 00e4 0BE0     	 b .L24
+ 708              	.L25:
+ 145:../main.c     **** 
+ 146:../main.c     **** 		  	  		}else{
+ 147:../main.c     **** 		  	  				  	  			recieved[0] = 0;		//Falls die Übertragung fehlerhaft ist, wird die Nachricht ge
+ 709              	 .loc 1 147 0
+ 710 00e6 0C4B     	 ldr r3,.L32+24
+ 711 00e8 0022     	 movs r2,#0
+ 712 00ea 1A70     	 strb r2,[r3]
+ 148:../main.c     **** 		  	  				  	  			recieved[1] = 0;		//und der Wachhund greift an
+ 713              	 .loc 1 148 0
+ 714 00ec 0A4B     	 ldr r3,.L32+24
+ 715 00ee 0022     	 movs r2,#0
+ 716 00f0 5A70     	 strb r2,[r3,#1]
+ 149:../main.c     **** 		  	  				  	  			recieved[2] = 0;
+ 717              	 .loc 1 149 0
+ 718 00f2 094B     	 ldr r3,.L32+24
+ 719 00f4 0022     	 movs r2,#0
+ 720 00f6 9A70     	 strb r2,[r3,#2]
+ 150:../main.c     **** 		  	  				  	  			recieved[3] = 0;
+ 721              	 .loc 1 150 0
+ 722 00f8 074B     	 ldr r3,.L32+24
+ 723 00fa 0022     	 movs r2,#0
+ 724 00fc DA70     	 strb r2,[r3,#3]
+ 725              	.L24:
+ 151:../main.c     **** 		  	  		}
+ 152:../main.c     **** 		  	  	  }
+ 153:../main.c     **** 
+ 154:../main.c     **** 	         }
+ 155:../main.c     **** 
+ 156:../main.c     ****   }
+ 726              	 .loc 1 156 0
+ 727 00fe A6E7     	 b .L29
+ 728              	.L33:
+ 729              	 .align 2
+ 730              	.L32:
+ 731 0100 40420F00 	 .word 1000000
+ 732 0104 00000000 	 .word watch_dog
+ 733 0108 00000000 	 .word Timer_WD
+ 734 010c 00000000 	 .word regelung
+ 735 0110 00000000 	 .word Timer_Regelung
+ 736 0114 00000000 	 .word UART_PROTOKOLL
+ 737 0118 00000000 	 .word recieved
+ 738 011c 00000000 	 .word startbit
+ 739 0120 00000000 	 .word fahr_geschwindigkeit_char
+ 740 0124 00000000 	 .word lenk_winkel
+ 741 0128 00000000 	 .word checksumme
+ 742 012c 00000000 	 .word distance
+ 743 0130 00000000 	 .word pwm_motor_leerlauf
+ 744              	 .cfi_endproc
+ 745              	.LFE501:
+ 747              	 .text
+ 748              	.Letext0:
+ 749              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 750              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 751              	 .file 4 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 752              	 .file 5 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc4_scu.h"
+ 753              	 .file 6 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_gpio.h"
+ 754              	 .file 7 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc4_gpio.h"
+ 755              	 .file 8 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_usic.h"
+ 756              	 .file 9 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_uart.h"
+ 757              	 .file 10 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/UART/uart.h"
+ 758              	 .file 11 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_ccu4.h"
+ 759              	 .file 12 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/GLOBAL_CCU4/global_ccu4.h"
+ 760              	 .file 13 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_ccu8.h"
+ 761              	 .file 14 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/GLOBAL_CCU8/global_ccu8.h"
+ 762              	 .file 15 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/PWM/pwm.h"
+ 763              	 .file 16 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/SYSTIMER/systimer.h"
+ 764              	 .file 17 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DAVE.h"
+ 765              	 .file 18 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 766              	 .file 19 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Include/core_cm4.h"
+ 767              	 .file 20 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 768              	 .file 21 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/UART/uart_extern.h"
+ 769              	 .file 22 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/PWM/PWM_Extern.h"
+ 770              	 .file 23 "../ultraschall.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+                            *COM*:00000004 Timer_WD
+                            *COM*:00000004 Timer_Regelung
+                            *COM*:00000004 Timer_BUTTON
+    {standard input}:27     .data.string:00000000 string
+    {standard input}:24     .data.string:00000000 $d
+    {standard input}:35     .bss.zaehlimpulse:00000000 zaehlimpulse
+    {standard input}:32     .bss.zaehlimpulse:00000000 $d
+    {standard input}:42     .bss.speed_in_cms:00000000 speed_in_cms
+    {standard input}:39     .bss.speed_in_cms:00000000 $d
+    {standard input}:49     .rodata.faktor:00000000 faktor
+    {standard input}:46     .rodata.faktor:00000000 $d
+    {standard input}:56     .bss.recieved:00000000 recieved
+    {standard input}:53     .bss.recieved:00000000 $d
+    {standard input}:62     .bss.startbit:00000000 startbit
+    {standard input}:63     .bss.startbit:00000000 $d
+    {standard input}:68     .bss.fahr_geschwindigkeit_char:00000000 fahr_geschwindigkeit_char
+    {standard input}:69     .bss.fahr_geschwindigkeit_char:00000000 $d
+                            *COM*:00000001 lenk_winkel
+    {standard input}:75     .bss.checksumme:00000000 checksumme
+    {standard input}:76     .bss.checksumme:00000000 $d
+    {standard input}:82     .bss.soll_fahr_geschwindigkeit:00000000 soll_fahr_geschwindigkeit
+    {standard input}:79     .bss.soll_fahr_geschwindigkeit:00000000 $d
+    {standard input}:89     .bss.strecke_cm:00000000 strecke_cm
+    {standard input}:86     .bss.strecke_cm:00000000 $d
+    {standard input}:96     .bss.abweichung:00000000 abweichung
+    {standard input}:93     .bss.abweichung:00000000 $d
+    {standard input}:103    .bss.speed_nach_regler:00000000 speed_nach_regler
+    {standard input}:100    .bss.speed_nach_regler:00000000 $d
+    {standard input}:110    .data.pwm_lenkung_leerlauf:00000000 pwm_lenkung_leerlauf
+    {standard input}:107    .data.pwm_lenkung_leerlauf:00000000 $d
+    {standard input}:117    .data.pwm_motor_leerlauf:00000000 pwm_motor_leerlauf
+    {standard input}:114    .data.pwm_motor_leerlauf:00000000 $d
+                            *COM*:00000004 pwm
+    {standard input}:125    .bss.reglerOutput:00000000 reglerOutput
+    {standard input}:122    .bss.reglerOutput:00000000 $d
+    {standard input}:132    .bss.Kp:00000000 Kp
+    {standard input}:129    .bss.Kp:00000000 $d
+    {standard input}:139    .bss.check:00000000 check
+    {standard input}:136    .bss.check:00000000 $d
+    {standard input}:146    .bss.fahr_infos:00000000 fahr_infos
+    {standard input}:143    .bss.fahr_infos:00000000 $d
+    {standard input}:149    .text.watch_dog:00000000 $t
+    {standard input}:154    .text.watch_dog:00000000 watch_dog
+    {standard input}:189    .text.watch_dog:00000024 $d
+    {standard input}:201    .text.regelung:00000000 $t
+    {standard input}:206    .text.regelung:00000000 regelung
+    {standard input}:274    .text.regelung:00000080 $d
+    {standard input}:291    .text.set_speed:00000000 $t
+    {standard input}:296    .text.set_speed:00000000 set_speed
+    {standard input}:362    .text.set_speed:00000060 $d
+    {standard input}:370    .text.pwm_set_lenkung:00000000 $t
+    {standard input}:375    .text.pwm_set_lenkung:00000000 pwm_set_lenkung
+    {standard input}:434    .text.pwm_set_lenkung:00000058 $d
+    {standard input}:442    .text.ERU0_3_IRQHandler:00000000 $t
+    {standard input}:447    .text.ERU0_3_IRQHandler:00000000 ERU0_3_IRQHandler
+    {standard input}:480    .text.ERU0_3_IRQHandler:00000018 $d
+    {standard input}:485    .text.CCU42_1_IRQHandler:00000000 $t
+    {standard input}:490    .text.CCU42_1_IRQHandler:00000000 CCU42_1_IRQHandler
+    {standard input}:556    .text.CCU42_1_IRQHandler:00000074 $d
+    {standard input}:565    .text.main:00000000 $t
+    {standard input}:570    .text.main:00000000 main
+    {standard input}:731    .text.main:00000100 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+PWM_SetDutyCycle
+SYSTIMER_StopTimer
+PWM_LENKUNG
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_dadd
+__aeabi_d2iz
+PWM_MOTOR
+__aeabi_i2d
+__aeabi_dsub
+__aeabi_d2f
+DAVE_Init
+Ultraschall_Init
+Infrarot_Init
+SYSTIMER_CreateTimer
+SYSTIMER_StartTimer
+UART_Receive
+SYSTIMER_RestartTimer
+UART_PROTOKOLL
+distance

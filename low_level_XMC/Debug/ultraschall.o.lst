@@ -1,0 +1,200 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "ultraschall.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .comm Abstand,12,4
+  20              	 .comm Timer_60ms,4,4
+  21              	 .comm Capture_t,4,4
+  22              	 .comm captured_time_us,4,4
+  23              	 .comm distance,4,4
+  24              	 .section .text.Get_Captured_Time_60ms,"ax",%progbits
+  25              	 .align 2
+  26              	 .global Get_Captured_Time_60ms
+  27              	 .thumb
+  28              	 .thumb_func
+  30              	Get_Captured_Time_60ms:
+  31              	.LFB495:
+  32              	 .file 1 "../ultraschall.c"
+   1:../ultraschall.c **** /*
+   2:../ultraschall.c ****  * ultraschall.c
+   3:../ultraschall.c ****  *
+   4:../ultraschall.c ****  *  Created on: Dec 4, 2023
+   5:../ultraschall.c ****  *      Author: danie
+   6:../ultraschall.c ****  */
+   7:../ultraschall.c **** 
+   8:../ultraschall.c **** #include "DAVE.h"                 //Declarations from DAVE Code Generation (includes SFR declaratio
+   9:../ultraschall.c **** #include "ultraschall.h"
+  10:../ultraschall.c **** #include <stdio.h>
+  11:../ultraschall.c **** 
+  12:../ultraschall.c **** #define Durchlauf 60000U
+  13:../ultraschall.c **** 
+  14:../ultraschall.c **** uint8_t Abstand [12];
+  15:../ultraschall.c **** uint32_t Timer_60ms;
+  16:../ultraschall.c **** uint32_t Capture_t;
+  17:../ultraschall.c **** 
+  18:../ultraschall.c **** float captured_time_us;
+  19:../ultraschall.c **** float distance;
+  20:../ultraschall.c **** 
+  21:../ultraschall.c **** void Get_Captured_Time_60ms(void)
+  22:../ultraschall.c **** {
+  33              	 .loc 1 22 0
+  34              	 .cfi_startproc
+  35              	 
+  36              	 
+  37 0000 80B5     	 push {r7,lr}
+  38              	.LCFI0:
+  39              	 .cfi_def_cfa_offset 8
+  40              	 .cfi_offset 7,-8
+  41              	 .cfi_offset 14,-4
+  42 0002 00AF     	 add r7,sp,#0
+  43              	.LCFI1:
+  44              	 .cfi_def_cfa_register 7
+  23:../ultraschall.c **** 	PWM_Start(&PWM_ULTRA);
+  45              	 .loc 1 23 0
+  46 0004 0F48     	 ldr r0,.L2
+  47 0006 FFF7FEFF 	 bl PWM_Start
+  24:../ultraschall.c **** 	CAPTURE_GetCapturedTimeInNanoSec(&CAPTURE_ULTRA, &Capture_t);
+  48              	 .loc 1 24 0
+  49 000a 0F48     	 ldr r0,.L2+4
+  50 000c 0F49     	 ldr r1,.L2+8
+  51 000e FFF7FEFF 	 bl CAPTURE_GetCapturedTimeInNanoSec
+  25:../ultraschall.c **** 	captured_time_us = ((float)Capture_t)/1000;
+  52              	 .loc 1 25 0
+  53 0012 0E4B     	 ldr r3,.L2+8
+  54 0014 1B68     	 ldr r3,[r3]
+  55 0016 07EE903A 	 fmsr s15,r3
+  56 001a F8EE677A 	 fuitos s15,s15
+  57 001e 9FED0C7A 	 flds s14,.L2+12
+  58 0022 C7EE877A 	 fdivs s15,s15,s14
+  59 0026 0B4B     	 ldr r3,.L2+16
+  60 0028 C3ED007A 	 fsts s15,[r3]
+  26:../ultraschall.c **** 	distance = captured_time_us /58;
+  61              	 .loc 1 26 0
+  62 002c 094B     	 ldr r3,.L2+16
+  63 002e D3ED007A 	 flds s15,[r3]
+  64 0032 9FED097A 	 flds s14,.L2+20
+  65 0036 C7EE877A 	 fdivs s15,s15,s14
+  66 003a 084B     	 ldr r3,.L2+24
+  67 003c C3ED007A 	 fsts s15,[r3]
+  27:../ultraschall.c **** 	//sprintf((char*)Abstand,"%.2fcm\n\r", distance);
+  28:../ultraschall.c **** 	//UART_Transmit(&UART_PROTOKOLL, Abstand, sizeof(Abstand));
+  29:../ultraschall.c **** }
+  68              	 .loc 1 29 0
+  69 0040 80BD     	 pop {r7,pc}
+  70              	.L3:
+  71 0042 00BF     	 .align 2
+  72              	.L2:
+  73 0044 00000000 	 .word PWM_ULTRA
+  74 0048 00000000 	 .word CAPTURE_ULTRA
+  75 004c 00000000 	 .word Capture_t
+  76 0050 00007A44 	 .word 1148846080
+  77 0054 00000000 	 .word captured_time_us
+  78 0058 00006842 	 .word 1114112000
+  79 005c 00000000 	 .word distance
+  80              	 .cfi_endproc
+  81              	.LFE495:
+  83              	 .section .text.Ultraschall_Init,"ax",%progbits
+  84              	 .align 2
+  85              	 .global Ultraschall_Init
+  86              	 .thumb
+  87              	 .thumb_func
+  89              	Ultraschall_Init:
+  90              	.LFB496:
+  30:../ultraschall.c **** 
+  31:../ultraschall.c **** void Ultraschall_Init(void)
+  32:../ultraschall.c **** {
+  91              	 .loc 1 32 0
+  92              	 .cfi_startproc
+  93              	 
+  94              	 
+  95 0000 80B5     	 push {r7,lr}
+  96              	.LCFI2:
+  97              	 .cfi_def_cfa_offset 8
+  98              	 .cfi_offset 7,-8
+  99              	 .cfi_offset 14,-4
+ 100 0002 00AF     	 add r7,sp,#0
+ 101              	.LCFI3:
+ 102              	 .cfi_def_cfa_register 7
+  33:../ultraschall.c **** 	Timer_60ms = SYSTIMER_CreateTimer(Durchlauf,SYSTIMER_MODE_PERIODIC,(void*)Get_Captured_Time_60ms,N
+ 103              	 .loc 1 33 0
+ 104 0004 4EF66020 	 movw r0,#60000
+ 105 0008 0121     	 movs r1,#1
+ 106 000a 064A     	 ldr r2,.L5
+ 107 000c 0023     	 movs r3,#0
+ 108 000e FFF7FEFF 	 bl SYSTIMER_CreateTimer
+ 109 0012 0246     	 mov r2,r0
+ 110 0014 044B     	 ldr r3,.L5+4
+ 111 0016 1A60     	 str r2,[r3]
+  34:../ultraschall.c **** 	SYSTIMER_StartTimer(Timer_60ms);
+ 112              	 .loc 1 34 0
+ 113 0018 034B     	 ldr r3,.L5+4
+ 114 001a 1B68     	 ldr r3,[r3]
+ 115 001c 1846     	 mov r0,r3
+ 116 001e FFF7FEFF 	 bl SYSTIMER_StartTimer
+  35:../ultraschall.c **** }
+ 117              	 .loc 1 35 0
+ 118 0022 80BD     	 pop {r7,pc}
+ 119              	.L6:
+ 120              	 .align 2
+ 121              	.L5:
+ 122 0024 00000000 	 .word Get_Captured_Time_60ms
+ 123 0028 00000000 	 .word Timer_60ms
+ 124              	 .cfi_endproc
+ 125              	.LFE496:
+ 127              	 .text
+ 128              	.Letext0:
+ 129              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 130              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 131              	 .file 4 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 132              	 .file 5 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc4_scu.h"
+ 133              	 .file 6 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_gpio.h"
+ 134              	 .file 7 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc4_gpio.h"
+ 135              	 .file 8 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_usic.h"
+ 136              	 .file 9 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_ccu4.h"
+ 137              	 .file 10 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/GLOBAL_CCU4/global_ccu4.h"
+ 138              	 .file 11 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_ccu8.h"
+ 139              	 .file 12 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/GLOBAL_CCU8/global_ccu8.h"
+ 140              	 .file 13 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/PWM/pwm.h"
+ 141              	 .file 14 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/SYSTIMER/systimer.h"
+ 142              	 .file 15 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/CAPTURE/capture.h"
+ 143              	 .file 16 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 144              	 .file 17 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Include/core_cm4.h"
+ 145              	 .file 18 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 146              	 .file 19 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/PWM/PWM_Extern.h"
+ 147              	 .file 20 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/CAPTURE/capture_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ultraschall.c
+                            *COM*:0000000c Abstand
+                            *COM*:00000004 Timer_60ms
+                            *COM*:00000004 Capture_t
+                            *COM*:00000004 captured_time_us
+                            *COM*:00000004 distance
+    {standard input}:25     .text.Get_Captured_Time_60ms:00000000 $t
+    {standard input}:30     .text.Get_Captured_Time_60ms:00000000 Get_Captured_Time_60ms
+    {standard input}:73     .text.Get_Captured_Time_60ms:00000044 $d
+    {standard input}:84     .text.Ultraschall_Init:00000000 $t
+    {standard input}:89     .text.Ultraschall_Init:00000000 Ultraschall_Init
+    {standard input}:122    .text.Ultraschall_Init:00000024 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+PWM_Start
+CAPTURE_GetCapturedTimeInNanoSec
+PWM_ULTRA
+CAPTURE_ULTRA
+SYSTIMER_CreateTimer
+SYSTIMER_StartTimer

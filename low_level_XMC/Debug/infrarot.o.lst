@@ -1,0 +1,1167 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "infrarot.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.XMC_GPIO_ToggleOutput,"ax",%progbits
+  20              	 .align 2
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	XMC_GPIO_ToggleOutput:
+  25              	.LFB175:
+  26              	 .file 1 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_gpio.h"
+   1:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+   2:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @file xmc_gpio.h
+   3:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @date 2015-06-20
+   4:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+   5:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @cond
+   6:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *****************************************************************************
+   7:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * XMClib v2.2.0 - XMC Peripheral Driver Library
+   8:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+   9:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Copyright (c) 2015-2020, Infineon Technologies AG
+  10:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * All rights reserved.
+  11:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  12:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Boost Software License - Version 1.0 - August 17th, 2003
+  13:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  14:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Permission is hereby granted, free of charge, to any person or organization
+  15:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * obtaining a copy of the software and accompanying documentation covered by
+  16:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * this license (the "Software") to use, reproduce, display, distribute,
+  17:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * execute, and transmit the Software, and to prepare derivative works of the
+  18:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Software, and to permit third-parties to whom the Software is furnished to
+  19:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * do so, all subject to the following:
+  20:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  21:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * The copyright notices in the Software and this entire statement, including
+  22:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * the above license grant, this restriction and the following disclaimer,
+  23:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * must be included in all copies of the Software, in whole or in part, and
+  24:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * all derivative works of the Software, unless such copies or derivative
+  25:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * works are solely in the form of machine-executable object code generated by
+  26:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * a source language processor.
+  27:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  28:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  29:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  30:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+  31:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+  32:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+  33:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  34:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * DEALINGS IN THE SOFTWARE.
+  35:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  36:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * To improve the quality of the software, users are encouraged to share
+  37:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * modifications, enhancements or bug fixes with Infineon Technologies AG
+  38:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * at XMCSupport@infineon.com.
+  39:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *****************************************************************************
+  40:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  41:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Change History
+  42:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * --------------
+  43:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  44:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * 2015-02-20:
+  45:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *     - Initial draft<br>
+  46:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *     - Documentation improved <br>
+  47:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  48:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * 2015-06-20:
+  49:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *     - Removed version macros and declaration of GetDriverVersion API
+  50:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  51:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @endcond
+  52:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  53:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+  54:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+  55:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #ifndef XMC_GPIO_H
+  56:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #define XMC_GPIO_H
+  57:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+  58:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**************************************************************************************************
+  59:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * HEADER FILES
+  60:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  **************************************************************************************************
+  61:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+  62:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #include "xmc_common.h"
+  63:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+  64:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+  65:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @addtogroup XMClib XMC Peripheral Library
+  66:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @{
+  67:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+  68:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+  69:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+  70:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @addtogroup GPIO
+  71:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @brief General Purpose Input Output (GPIO) driver for the XMC microcontroller family.
+  72:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  73:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * GPIO driver provide a generic and very flexible software interface for all standard digital I/O 
+  74:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Each port slice has individual interfaces for the operation as General Purpose I/O and it furthe
+  75:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * connectivity to the on-chip periphery and the control for the pad characteristics.
+  76:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  77:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * The driver is divided into Input and Output mode.
+  78:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  79:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Input mode features:
+  80:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * -# Configuration structure XMC_GPIO_CONFIG_t and initialization function XMC_GPIO_Init()
+  81:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * -# Allows the selection of weak pull-up or pull-down device. Configuration structure XMC_GPIO_MO
+  82:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \if XMC1
+  83:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * -# Allows the selection of input hysteresis. XMC_GPIO_SetInputHysteresis()
+  84:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \endif
+  85:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  86:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  87:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Output mode features:
+  88:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * -# Allows the selection of push pull/open drain and Alternate output. Configuration structure XM
+  89:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \if XMC4
+  90:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * -# Allows the selection of pad driver strength. Configuration structure XMC_GPIO_OUTPUT_STRENGTH
+  91:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \endif
+  92:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  93:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * -# Allows the selection of initial output level. Configuration structure XMC_GPIO_OUTPUT_LEVEL_t
+  94:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+  95:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *@{
+  96:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+  97:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+  98:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**************************************************************************************************
+  99:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * MACROS
+ 100:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  **************************************************************************************************
+ 101:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 102:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #define PORT_IOCR_PC_Pos PORT0_IOCR0_PC0_Pos
+ 103:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #define PORT_IOCR_PC_Msk PORT0_IOCR0_PC0_Msk
+ 104:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 105:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #define PORT_IOCR_PC_Size 				(8U)
+ 106:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 107:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 108:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #define XMC_GPIO_CHECK_OUTPUT_LEVEL(level) ((level == XMC_GPIO_OUTPUT_LEVEL_LOW) || \
+ 109:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****                                             (level == XMC_GPIO_OUTPUT_LEVEL_HIGH))
+ 110:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 111:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #define XMC_GPIO_CHECK_HWCTRL(hwctrl) ((hwctrl == XMC_GPIO_HWCTRL_DISABLED) || \
+ 112:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****                                        (hwctrl == XMC_GPIO_HWCTRL_PERIPHERAL1) || \
+ 113:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****                                        (hwctrl == XMC_GPIO_HWCTRL_PERIPHERAL2))
+ 114:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 115:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**************************************************************************************************
+ 116:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * ENUMS
+ 117:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  **************************************************************************************************
+ 118:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 119:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 120:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+ 121:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Defines output level of a pin. Use type \a XMC_GPIO_OUTPUT_LEVEL_t for this enum.
+ 122:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+ 123:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** typedef enum XMC_GPIO_OUTPUT_LEVEL
+ 124:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** {
+ 125:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_GPIO_OUTPUT_LEVEL_LOW  = 0x10000U, /**<  Reset bit */
+ 126:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_GPIO_OUTPUT_LEVEL_HIGH = 0x1U, 	/**< Set bit  */
+ 127:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** } XMC_GPIO_OUTPUT_LEVEL_t;
+ 128:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 129:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+ 130:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Defines direct hardware control characteristics of the pin . Use type \a XMC_GPIO_HWCTRL_t for t
+ 131:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+ 132:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** typedef enum XMC_GPIO_HWCTRL
+ 133:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** {
+ 134:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_GPIO_HWCTRL_DISABLED     = 0x0U, /**<  Software control only */
+ 135:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_GPIO_HWCTRL_PERIPHERAL1  = 0x1U, /**<  HWI0/HWO0 control path can override the software confi
+ 136:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_GPIO_HWCTRL_PERIPHERAL2  = 0x2U  /**<  HWI1/HWO1 control path can override the software confi
+ 137:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** } XMC_GPIO_HWCTRL_t;
+ 138:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 139:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**************************************************************************************************
+ 140:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * DEVICE FAMILY EXTENSIONS
+ 141:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  **************************************************************************************************
+ 142:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 143:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #if UC_FAMILY == XMC1
+ 144:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #include "xmc1_gpio.h"
+ 145:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #elif UC_FAMILY == XMC4
+ 146:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #include "xmc4_gpio.h"
+ 147:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #else
+ 148:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #error "xmc_gpio.h: family device not supported"
+ 149:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #endif
+ 150:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 151:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**************************************************************************************************
+ 152:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * API PROTOTYPES
+ 153:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  **************************************************************************************************
+ 154:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 155:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #ifdef __cplusplus
+ 156:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** extern "C" {
+ 157:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** #endif
+ 158:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 159:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 160:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+ 161:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  port	  Constant pointer pointing to GPIO port, to access port registers like Pn_OUT,Pn_O
+ 162:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  pin	  Port pin number.
+ 163:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  config GPIO configuration data structure. Refer data structure @ref XMC_GPIO_CONFIG_t fo
+ 164:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 165:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @return None
+ 166:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 167:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 168:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \if XMC1
+ 169:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Initializes input / output mode settings like, pull up / pull down devices,hysteresis, push pull
+ 170:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Also configures alternate function outputs and clears hardware port control for a selected \a po
+ 171:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \a config provides selected I/O settings. It configures hardware registers Pn_IOCR,Pn_OUT, Pn_OM
+ 172:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \endif
+ 173:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \if XMC4
+ 174:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Initializes input / output mode settings like, pull up / pull down devices,push pull /open drain
+ 175:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Also configures alternate function outputs and clears hardware port control for selected \a port
+ 176:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * It configures hardware registers Pn_IOCR,Pn_OUT,Pn_OMR,Pn_PDISC and Pn_PDR.\n
+ 177:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \endif
+ 178:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 179:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>
+ 180:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *  None
+ 181:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 182:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Note:</b><br>
+ 183:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * This API is called in definition of DAVE_init by code generation and therefore should not be exp
+ 184:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * for the normal operation. Use other APIs only after DAVE_init is called successfully (returns DA
+ 185:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 186:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 187:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+ 188:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 189:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 190:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** void XMC_GPIO_Init(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_CONFIG_t *const c
+ 191:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 192:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+ 193:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 194:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  port	Constant pointer pointing to GPIO port, to access hardware register Pn_IOCR.
+ 195:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  pin	Port pin number.
+ 196:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  mode input / output functionality selection. Refer @ref XMC_GPIO_MODE_t for valid values
+ 197:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 198:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @return None
+ 199:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 200:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 201:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Sets digital input and output driver functionality and characteristics of a GPIO port pin. It co
+ 202:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * registers Pn_IOCR. \a mode is initially configured during initialization in XMC_GPIO_Init(). Cal
+ 203:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * the port direction functionality as needed later in the program.
+ 204:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 205:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>
+ 206:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *  None
+ 207:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 208:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+ 209:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 210:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** void XMC_GPIO_SetMode(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_MODE_t mode);
+ 211:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 212:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 213:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+ 214:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 215:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  port	 Constant pointer pointing to GPIO port, to access hardware register Pn_OMR.
+ 216:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  pin	 Port pin number.
+ 217:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  level output level selection. Refer @ref XMC_GPIO_OUTPUT_LEVEL_t for valid values.
+ 218:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 219:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @return None
+ 220:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 221:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 222:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Set port pin output level to high or low.It configures hardware registers Pn_OMR.\a level is ini
+ 223:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * configured during initialization in XMC_GPIO_Init(). Call this API to alter output level as need
+ 224:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 225:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>
+ 226:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *  XMC_GPIO_SetOutputHigh(), XMC_GPIO_SetOutputLow().
+ 227:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 228:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Note:</b><br>
+ 229:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Prior to this api, user has to configure port pin to output mode using XMC_GPIO_SetMode().
+ 230:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 231:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+ 232:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 233:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 234:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** __STATIC_INLINE void XMC_GPIO_SetOutputLevel(XMC_GPIO_PORT_t *const port, const uint8_t pin, const 
+ 235:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** {
+ 236:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_SetOutputLevel: Invalid port", XMC_GPIO_CHECK_OUTPUT_PORT(port));
+ 237:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_SetOutputLevel: Invalid output level", XMC_GPIO_CHECK_OUTPUT_LEVEL(level));
+ 238:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 239:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   port->OMR = (uint32_t)level << pin;
+ 240:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** }
+ 241:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 242:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 243:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+ 244:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  port constant pointer pointing to GPIO port, to access hardware register Pn_OMR.
+ 245:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  pin	Port pin number.
+ 246:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 247:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @return None
+ 248:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 249:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 250:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *  Sets port pin output to high. It configures hardware registers Pn_OMR.
+ 251:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 252:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *  \par<b>Related APIs:</b><BR>
+ 253:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *  XMC_GPIO_SetOutputLow()
+ 254:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 255:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Note:</b><br>
+ 256:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Prior to this api, user has to configure port pin to output mode using XMC_GPIO_SetMode().\n
+ 257:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Register Pn_OMR is virtual and does not contain any flip-flop. A read action delivers the value 
+ 258:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 259:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+ 260:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 261:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** __STATIC_INLINE void XMC_GPIO_SetOutputHigh(XMC_GPIO_PORT_t *const port, const uint8_t pin)
+ 262:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** {
+ 263:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_SetOutputHigh: Invalid port", XMC_GPIO_CHECK_OUTPUT_PORT(port));
+ 264:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 265:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   port->OMR = (uint32_t)0x1U << pin;
+ 266:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** }
+ 267:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 268:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+ 269:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 270:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  port	constant pointer pointing to GPIO port, to access hardware register Pn_OMR.
+ 271:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param  pin	port pin number.
+ 272:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 273:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @return  None
+ 274:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 275:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *\par<b>Description:</b><br>
+ 276:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Sets port pin output to low. It configures hardware registers Pn_OMR.\n
+ 277:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 278:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>>
+ 279:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * XMC_GPIO_SetOutputHigh()
+ 280:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 281:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *\par<b>Note:</b><br>
+ 282:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Prior to this api, user has to configure port pin to output mode using XMC_GPIO_SetMode().
+ 283:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Register Pn_OMR is virtual and does not contain any flip-flop. A read action delivers the value 
+ 284:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 285:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+ 286:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 287:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** __STATIC_INLINE void XMC_GPIO_SetOutputLow(XMC_GPIO_PORT_t *const port, const uint8_t pin)
+ 288:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** {
+ 289:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_SetOutputLow: Invalid port", XMC_GPIO_CHECK_OUTPUT_PORT(port));
+ 290:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 291:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   port->OMR = 0x10000U << pin;
+ 292:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** }
+ 293:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 294:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** /**
+ 295:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 296:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param port constant pointer pointing to GPIO port, to access hardware register Pn_OMR.
+ 297:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @param pin  port pin number.
+ 298:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 299:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * @return None
+ 300:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 301:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 302:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Configures port pin output to Toggle. It configures hardware registers Pn_OMR.
+ 303:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 304:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>
+ 305:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * XMC_GPIO_SetOutputHigh(), XMC_GPIO_SetOutputLow().
+ 306:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 307:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * \par<b>Note:</b><br>
+ 308:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * Prior to this api, user has to configure port pin to output mode using XMC_GPIO_SetMode(). Regis
+ 309:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  * and does not contain any flip-flop. A read action delivers the value of 0.
+ 310:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  *
+ 311:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****  */
+ 312:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 313:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** __STATIC_INLINE void XMC_GPIO_ToggleOutput(XMC_GPIO_PORT_t *const port, const uint8_t pin)
+ 314:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** {
+  27              	 .loc 1 314 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	 
+  32 0000 80B4     	 push {r7}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 4
+  35              	 .cfi_offset 7,-4
+  36 0002 83B0     	 sub sp,sp,#12
+  37              	.LCFI1:
+  38              	 .cfi_def_cfa_offset 16
+  39 0004 00AF     	 add r7,sp,#0
+  40              	.LCFI2:
+  41              	 .cfi_def_cfa_register 7
+  42 0006 7860     	 str r0,[r7,#4]
+  43 0008 0B46     	 mov r3,r1
+  44 000a FB70     	 strb r3,[r7,#3]
+ 315:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_ToggleOutput: Invalid port", XMC_GPIO_CHECK_OUTPUT_PORT(port));
+ 316:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** 
+ 317:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h ****   port->OMR = 0x10001U << pin;
+  45              	 .loc 1 317 0
+  46 000c FB78     	 ldrb r3,[r7,#3]
+  47 000e 4FF00112 	 mov r2,#65537
+  48 0012 9A40     	 lsls r2,r2,r3
+  49 0014 7B68     	 ldr r3,[r7,#4]
+  50 0016 5A60     	 str r2,[r3,#4]
+ 318:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc\xmc_gpio.h **** }
+  51              	 .loc 1 318 0
+  52 0018 0C37     	 adds r7,r7,#12
+  53              	.LCFI3:
+  54              	 .cfi_def_cfa_offset 4
+  55 001a BD46     	 mov sp,r7
+  56              	.LCFI4:
+  57              	 .cfi_def_cfa_register 13
+  58              	 
+  59 001c 5DF8047B 	 ldr r7,[sp],#4
+  60              	.LCFI5:
+  61              	 .cfi_restore 7
+  62              	 .cfi_def_cfa_offset 0
+  63 0020 7047     	 bx lr
+  64              	 .cfi_endproc
+  65              	.LFE175:
+  67 0022 00BF     	 .section .text.DIGITAL_IO_ToggleOutput,"ax",%progbits
+  68              	 .align 2
+  69              	 .thumb
+  70              	 .thumb_func
+  72              	DIGITAL_IO_ToggleOutput:
+  73              	.LFB289:
+  74              	 .file 2 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO/digital_io.h"
+   1:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /*
+   2:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+   3:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * @file digital_io.h
+   4:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * @date 2021-01-08
+   5:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+   6:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * NOTE:
+   7:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * This file is generated by DAVE. Any manual modification done to this file will be lost when the 
+   8:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+   9:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * @cond
+  10:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  **************************************************************************************************
+  11:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * DIGITAL_IO v4.0.18 - The DIGITAL_IO APP is used to configure a port pin as digital Input/Output.
+  12:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  13:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * Copyright (c) 2015-2020, Infineon Technologies AG
+  14:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * All rights reserved.
+  15:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  16:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * Redistribution and use in source and binary forms, with or without modification,are permitted pr
+  17:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * following conditions are met:
+  18:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  19:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *   Redistributions of source code must retain the above copyright notice, this list of conditions
+  20:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *   disclaimer.
+  21:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  22:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *   Redistributions in binary form must reproduce the above copyright notice, this list of conditi
+  23:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *   following disclaimer in the documentation and/or other materials provided with the distributio
+  24:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  25:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *   Neither the name of the copyright holders nor the names of its contributors may be used to end
+  26:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *   products derived from this software without specific prior written permission.
+  27:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  28:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR I
+  29:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTI
+  30:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE  FOR ANY DIRECT, IN
+  31:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBS
+  32:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THE
+  33:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * WHETHER IN CONTRACT, STRICT LIABILITY,OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+  34:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  35:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  36:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * To improve the quality of the software, users are encouraged to share modifications, enhancement
+  37:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * with Infineon Technologies AG (dave@infineon.com).
+  38:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  **************************************************************************************************
+  39:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  40:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * Change History
+  41:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * --------------
+  42:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  43:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * 2015-02-16
+  44:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *     - Initial version
+  45:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  46:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * 2015-04-22
+  47:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *     - XMC_ASSERT is added in static inline functions.<br>
+  48:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  49:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * 2015-06-20
+  50:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *     - Version check added for XMCLib dependency.<br>
+  51:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  52:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * 2015-12-22
+  53:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *     - Added hardware controlled IO feature.
+  54:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * 2016-07-08:
+  55:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *     - Fixed incorrect case for an included header.<br>
+  56:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * 2021-01-08:
+  57:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *     - Modified check for minimum XMCLib version
+  58:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  59:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * @endcond
+  60:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  *
+  61:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  */
+  62:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+  63:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**************************************************************************************************
+  64:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * HEADER FILES
+  65:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  **************************************************************************************************
+  66:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+  67:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #ifndef DIGITAL_IO_H
+  68:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #define DIGITAL_IO_H
+  69:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+  70:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #include "xmc_gpio.h"
+  71:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #include "DAVE_Common.h"
+  72:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #include "digital_io_conf.h"
+  73:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+  74:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**************************************************************************************************
+  75:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * MACROS
+  76:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  **************************************************************************************************
+  77:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #define DIGITAL_IO_XMC_LIB_MAJOR_VERSION 2
+  78:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #define DIGITAL_IO_XMC_LIB_MINOR_VERSION 0
+  79:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #define DIGITAL_IO_XMC_LIB_PATCH_VERSION 0
+  80:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+  81:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #if !((XMC_LIB_MAJOR_VERSION > DIGITAL_IO_XMC_LIB_MAJOR_VERSION) ||\
+  82:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****       ((XMC_LIB_MAJOR_VERSION == DIGITAL_IO_XMC_LIB_MAJOR_VERSION) && (XMC_LIB_MINOR_VERSION > DIGI
+  83:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****       ((XMC_LIB_MAJOR_VERSION == DIGITAL_IO_XMC_LIB_MAJOR_VERSION) && (XMC_LIB_MINOR_VERSION == DIG
+  84:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #error "DIGITAL_IO requires XMC Peripheral Library v2.0.0 or higher"
+  85:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #endif
+  86:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+  87:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  /*************************************************************************************************
+  88:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * ENUMS
+  89:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  **************************************************************************************************
+  90:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+  91:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+  92:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @ingroup DIGITAL_IO_enumerations
+  93:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @{
+  94:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+  95:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+  96:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+  97:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @brief Initialization status of DIGITAL_IO APP.
+  98:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+  99:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** typedef enum DIGITAL_IO_STATUS
+ 100:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** {
+ 101:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   DIGITAL_IO_STATUS_OK = 0U,/**< 0=Status OK */
+ 102:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   DIGITAL_IO_STATUS_FAILURE = 1U/**< 1=Status Failed */
+ 103:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** } DIGITAL_IO_STATUS_t;
+ 104:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 105:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 106:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @}
+ 107:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 108:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 109:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**************************************************************************************************
+ 110:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * DATA STRUCTURES
+ 111:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  **************************************************************************************************
+ 112:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 113:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @ingroup DIGITAL_IO_datastructures
+ 114:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @{
+ 115:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 116:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 117:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 118:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @brief Initialization data structure of DIGITAL_IO APP
+ 119:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 120:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** typedef struct DIGITAL_IO
+ 121:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** {
+ 122:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   XMC_GPIO_PORT_t *const gpio_port;             /**< port number */
+ 123:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   const XMC_GPIO_CONFIG_t gpio_config;          /**< mode, initial output level and pad driver stre
+ 124:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   const uint8_t gpio_pin;                       /**< pin number */
+ 125:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   const XMC_GPIO_HWCTRL_t hwctrl;               /**< Hardware port control */
+ 126:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** } DIGITAL_IO_t;
+ 127:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 128:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 129:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 130:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @}
+ 131:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 132:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 133:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 134:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**************************************************************************************************
+ 135:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  * API Prototypes
+ 136:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****  **************************************************************************************************
+ 137:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 138:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 139:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #ifdef __cplusplus
+ 140:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** extern "C" {
+ 141:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** #endif
+ 142:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 143:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 144:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @ingroup DIGITAL_IO_apidoc
+ 145:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @{
+ 146:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 147:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 148:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 149:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 150:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 151:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @brief Get DIGITAL_IO APP version
+ 152:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @return DAVE_APP_VERSION_t APP version information (major, minor and patch number)
+ 153:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 154:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Description: </b><br>
+ 155:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * The function can be used to check application software compatibility with a
+ 156:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * specific version of the APP.
+ 157:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 158:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * Example Usage:
+ 159:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 160:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @code
+ 161:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * #include "DAVE.h"
+ 162:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 163:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * int main(void)
+ 164:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * {
+ 165:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   DAVE_STATUS_t init_status;
+ 166:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   DAVE_APP_VERSION_t version;
+ 167:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 168:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   // Initialize DIGITAL_IO APP:
+ 169:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   // DIGITAL_IO_Init() is called from within DAVE_Init().
+ 170:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   init_status = DAVE_Init();
+ 171:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   if(init_status == DAVE_STATUS_SUCCESS)
+ 172:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 173:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     version = DIGITAL_IO_GetAppVersion();
+ 174:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     if (version.major != 4U) {
+ 175:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     // Probably, not the right version.
+ 176:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     }
+ 177:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 178:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 179:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     // More code here
+ 180:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     while(1) {
+ 181:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 182:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     }
+ 183:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     return (1);
+ 184:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  }
+ 185:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @endcode<BR>
+ 186:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 187:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 188:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** DAVE_APP_VERSION_t DIGITAL_IO_GetAppVersion(void);
+ 189:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 190:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 191:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 192:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @brief Function to initialize the port pin as per UI settings.
+ 193:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @param handler Pointer pointing to APP data structure. Refer @ref DIGITAL_IO_t for details.
+ 194:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @return DIGITAL_IO_STATUS_t DIGITAL_IO APP status. Refer @ref DIGITAL_IO_STATUS_t structure for d
+ 195:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 196:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Description:</b><br>
+ 197:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * This function initializes GPIO port registers IOCR,PDISC,OMR,PDR/PHCR to configure pin direction,
+ 198:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * and pad driver strength/hysteresis.
+ 199:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 200:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Related APIs:</b><BR>
+ 201:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * None
+ 202:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 203:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * Example Usage:
+ 204:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @code
+ 205:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * #include "DAVE.h" //Declarations from DAVE Code Generation (includes SFR declaration)
+ 206:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 207:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * int main(void)
+ 208:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * {
+ 209:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   DAVE_STATUS_t status;
+ 210:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   status = DAVE_Init();  //(DAVE_STATUS_t)DIGITAL_IO_Init(&DIGITAL_IO_0) is called within DAVE_In
+ 211:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   if(status == DAVE_STATUS_SUCCESS)
+ 212:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 213:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     XMC_DEBUG("DAVE Apps initialization success\n");
+ 214:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 215:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   else
+ 216:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 217:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     XMC_DEBUG(("DAVE Apps initialization failed with status %d\n", status));
+ 218:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     while(1U)
+ 219:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     {
+ 220:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     }
+ 221:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 222:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   //Placeholder for user application code. The while loop below can be replaced with user applica
+ 223:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   while(1U)
+ 224:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 225:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 226:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   return 1U;
+ 227:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  }
+ 228:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  @endcode
+ 229:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 230:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 231:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** DIGITAL_IO_STATUS_t DIGITAL_IO_Init(const DIGITAL_IO_t *const handler);
+ 232:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 233:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 234:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 235:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @brief Function to set port pin high.
+ 236:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @param handler Pointer pointing to APP data structure. Refer @ref DIGITAL_IO_t for details.
+ 237:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @return None
+ 238:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 239:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Description:</b><br>
+ 240:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * This function configures port output modification register Pn_OMR, to make port pin to high level
+ 241:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 242:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Related APIs:</b><BR>
+ 243:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  DIGITAL_IO_SetOutputLow()
+ 244:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 245:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * Example Usage:
+ 246:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @code
+ 247:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * #include "DAVE.h" //Declarations from DAVE Code Generation (includes SFR declaration)
+ 248:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 249:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * int main(void)
+ 250:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * {
+ 251:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   DAVE_STATUS_t status;
+ 252:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   status = DAVE_Init();  //(DAVE_STATUS_t)DIGITAL_IO_Init(&DIGITAL_IO_0) is called within DAVE_In
+ 253:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   if(status == DAVE_STATUS_SUCCESS)
+ 254:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 255:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     XMC_DEBUG("DAVE Apps initialization success\n");
+ 256:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 257:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   else
+ 258:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 259:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     XMC_DEBUG(("DAVE Apps initialization failed with status %d\n", status));
+ 260:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     while(1U)
+ 261:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     {
+ 262:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     }
+ 263:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 264:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   //Placeholder for user application code. The while loop below can be replaced with user applica
+ 265:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   DIGITAL_IO_SetOutputHigh(&DIGITAL_IO_0);
+ 266:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   while(1U)
+ 267:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 268:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     // Add application code here
+ 269:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 270:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 271:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   return (1);
+ 272:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * }
+ 273:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  @endcode
+ 274:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 275:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 276:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** __STATIC_INLINE void DIGITAL_IO_SetOutputHigh(const DIGITAL_IO_t *const handler)
+ 277:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** {
+ 278:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   XMC_ASSERT("DIGITAL_IO_SetOutputHigh: handler null pointer", handler != NULL);
+ 279:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   XMC_GPIO_SetOutputHigh(handler->gpio_port, handler->gpio_pin);
+ 280:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** }
+ 281:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 282:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 283:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @brief Function to reset port pin.
+ 284:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @param handler Pointer pointing to APP data structure. Refer @ref DIGITAL_IO_t for details.
+ 285:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @return None
+ 286:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 287:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Description:</b><br>
+ 288:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * This function configures port output modification register Pn_OMR, to make port pin to low level.
+ 289:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 290:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Related APIs:</b><BR>
+ 291:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * DIGITAL_IO_SetOutputHigh()
+ 292:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 293:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * Example Usage:
+ 294:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @code
+ 295:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  #include "DAVE.h" //Declarations from DAVE Code Generation (includes SFR declaration)
+ 296:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 297:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  int main(void)
+ 298:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  {
+ 299:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    DAVE_STATUS_t status;
+ 300:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    status = DAVE_Init();  //(DAVE_STATUS_t)DIGITAL_IO_Init(&DIGITAL_IO_0) is called within DAVE_I
+ 301:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    if(status == DAVE_STATUS_SUCCESS)
+ 302:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    {
+ 303:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      XMC_DEBUG("DAVE Apps initialization success\n");
+ 304:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    }
+ 305:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    else
+ 306:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    {
+ 307:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      XMC_DEBUG(("DAVE Apps initialization failed with status %d\n", status));
+ 308:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      while(1U)
+ 309:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      {
+ 310:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      }
+ 311:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    }
+ 312:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    //Placeholder for user application code. The while loop below can be replaced with user applic
+ 313:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    DIGITAL_IO_SetOutputLow(&DIGITAL_IO_0);
+ 314:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    while(1U)
+ 315:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    {
+ 316:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      // Add application code here
+ 317:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *    }
+ 318:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 319:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   return (1);
+ 320:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * }
+ 321:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  @endcode
+ 322:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 323:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 324:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** __STATIC_INLINE void DIGITAL_IO_SetOutputLow(const DIGITAL_IO_t *const handler)
+ 325:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** {
+ 326:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   XMC_ASSERT("DIGITAL_IO_SetOutputLow: handler null pointer", handler != NULL);
+ 327:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   XMC_GPIO_SetOutputLow(handler->gpio_port,handler->gpio_pin);
+ 328:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** }
+ 329:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 330:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** /**
+ 331:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @brief Function to Toggle port pin.
+ 332:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @param handler Pointer pointing to APP data structure. Refer @ref DIGITAL_IO_t for details.
+ 333:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @return None
+ 334:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 335:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Description:</b><br>
+ 336:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * This function configures port output modification register Pn_OMR, to toggle port pin.
+ 337:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 338:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * \par<b>Related APIs:</b><BR>
+ 339:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * DIGITAL_IO_SetOutputLow(), DIGITAL_IO_SetOutputHigh()
+ 340:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 341:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * Example Usage:
+ 342:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 343:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * @code
+ 344:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * #include "DAVE.h" //Declarations from DAVE Code Generation (includes SFR declaration)
+ 345:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *
+ 346:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * int main(void)
+ 347:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * {
+ 348:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   DAVE_STATUS_t status;
+ 349:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   uint32_t delay_count;;
+ 350:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   status = DAVE_Init();  //(DAVE_STATUS_t)DIGITAL_IO_Init(&DIGITAL_IO_0) is called within DAVE_In
+ 351:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   if(status == DAVE_STATUS_SUCCESS)
+ 352:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 353:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *     XMC_DEBUG("DAVE Apps initialization success\n");
+ 354:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 355:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   else
+ 356:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 357:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      XMC_DEBUG(("DAVE Apps initialization failed with status %d\n", status));
+ 358:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      while(1U)
+ 359:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      {
+ 360:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      }
+ 361:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 362:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   //Placeholder for user application code. The while loop below can be replaced with user applica
+ 363:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   while(1U)
+ 364:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   {
+ 365:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      DIGITAL_IO_ToggleOutput(&DIGITAL_IO_0); //toggles : 1 -> 0 (if initial output level is logic
+ 366:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      //Add application code here
+ 367:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      for(delay_count = 0;delay_count<0xfffff;delay_count++);
+ 368:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      DIGITAL_IO_ToggleOutput(&DIGITAL_IO_0); //toggles : 0 -> 1
+ 369:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      //Add application code here
+ 370:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *      for(delay_count = 0;delay_count<0xfffff;delay_count++);
+ 371:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   }
+ 372:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *   return (1);
+ 373:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** * }
+ 374:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** *  @endcode
+ 375:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** */
+ 376:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** 
+ 377:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** __STATIC_INLINE void DIGITAL_IO_ToggleOutput(const DIGITAL_IO_t *const handler)
+ 378:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** {
+  75              	 .loc 2 378 0
+  76              	 .cfi_startproc
+  77              	 
+  78              	 
+  79 0000 80B5     	 push {r7,lr}
+  80              	.LCFI6:
+  81              	 .cfi_def_cfa_offset 8
+  82              	 .cfi_offset 7,-8
+  83              	 .cfi_offset 14,-4
+  84 0002 82B0     	 sub sp,sp,#8
+  85              	.LCFI7:
+  86              	 .cfi_def_cfa_offset 16
+  87 0004 00AF     	 add r7,sp,#0
+  88              	.LCFI8:
+  89              	 .cfi_def_cfa_register 7
+  90 0006 7860     	 str r0,[r7,#4]
+ 379:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   XMC_ASSERT("DIGITAL_IO_ToggleOutput: handler null pointer", handler != NULL);
+ 380:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h ****   XMC_GPIO_ToggleOutput(handler->gpio_port, handler->gpio_pin);
+  91              	 .loc 2 380 0
+  92 0008 7B68     	 ldr r3,[r7,#4]
+  93 000a 1A68     	 ldr r2,[r3]
+  94 000c 7B68     	 ldr r3,[r7,#4]
+  95 000e 1B7C     	 ldrb r3,[r3,#16]
+  96 0010 1046     	 mov r0,r2
+  97 0012 1946     	 mov r1,r3
+  98 0014 FFF7FEFF 	 bl XMC_GPIO_ToggleOutput
+ 381:C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO\digital_io.h **** }
+  99              	 .loc 2 381 0
+ 100 0018 0837     	 adds r7,r7,#8
+ 101              	.LCFI9:
+ 102              	 .cfi_def_cfa_offset 8
+ 103 001a BD46     	 mov sp,r7
+ 104              	.LCFI10:
+ 105              	 .cfi_def_cfa_register 13
+ 106              	 
+ 107 001c 80BD     	 pop {r7,pc}
+ 108              	 .cfi_endproc
+ 109              	.LFE289:
+ 111              	 .comm IR_ADC,100,4
+ 112              	 .comm Luecke,100,4
+ 113              	 .comm Timer_IR,4,4
+ 114              	 .global previous_ADC
+ 115 001e 00BF     	 .section .bss.previous_ADC,"aw",%nobits
+ 116              	 .align 2
+ 119              	previous_ADC:
+ 120 0000 00000000 	 .space 4
+ 121              	 .comm elapsed_time,4,4
+ 122              	 .comm time_in_s,4,4
+ 123              	 .global check_start
+ 124              	 .section .bss.check_start,"aw",%nobits
+ 125              	 .align 2
+ 128              	check_start:
+ 129 0000 00000000 	 .space 4
+ 130              	 .global turn
+ 131              	 .section .bss.turn,"aw",%nobits
+ 132              	 .align 2
+ 135              	turn:
+ 136 0000 00000000 	 .space 4
+ 137              	 .global park_luecke_cm
+ 138              	 .section .bss.park_luecke_cm,"aw",%nobits
+ 139              	 .align 2
+ 142              	park_luecke_cm:
+ 143 0000 00000000 	 .space 4
+ 144              	 .global park_luecke_genug
+ 145              	 .section .bss.park_luecke_genug,"aw",%nobits
+ 146              	 .align 2
+ 149              	park_luecke_genug:
+ 150 0000 00000000 	 .space 4
+ 151              	 .global min_parkluecke_laenge_cm
+ 152              	 .section .data.min_parkluecke_laenge_cm,"aw",%progbits
+ 153              	 .align 2
+ 156              	min_parkluecke_laenge_cm:
+ 157 0000 46000000 	 .word 70
+ 158              	 .global parkluecke
+ 159              	 .section .bss.parkluecke,"aw",%nobits
+ 160              	 .align 2
+ 163              	parkluecke:
+ 164 0000 00000000 	 .space 4
+ 165              	 .comm IR_ADC_Wert,2,2
+ 166              	 .section .text.IR_ADC_Wert_1ms,"ax",%progbits
+ 167              	 .align 2
+ 168              	 .global IR_ADC_Wert_1ms
+ 169              	 .thumb
+ 170              	 .thumb_func
+ 172              	IR_ADC_Wert_1ms:
+ 173              	.LFB495:
+ 174              	 .file 3 "../infrarot.c"
+   1:../infrarot.c **** /*
+   2:../infrarot.c ****  * infrarot.c
+   3:../infrarot.c ****  *
+   4:../infrarot.c ****  *  Created on: Dec 4, 2023
+   5:../infrarot.c ****  *      Author: danie
+   6:../infrarot.c ****  */
+   7:../infrarot.c **** 
+   8:../infrarot.c **** #include "DAVE.h"
+   9:../infrarot.c **** #include "infrarot.h"
+  10:../infrarot.c **** #include <stdio.h>
+  11:../infrarot.c **** #include "global.h"
+  12:../infrarot.c **** #define PERIODIC_READ 10000U
+  13:../infrarot.c **** 
+  14:../infrarot.c **** uint8_t IR_ADC[100];
+  15:../infrarot.c **** uint8_t Luecke[100];
+  16:../infrarot.c **** uint32_t Timer_IR;
+  17:../infrarot.c **** 
+  18:../infrarot.c **** uint32_t previous_ADC = 0;
+  19:../infrarot.c **** 
+  20:../infrarot.c **** float elapsed_time;
+  21:../infrarot.c **** float time_in_s;
+  22:../infrarot.c **** 
+  23:../infrarot.c **** int check_start = 0;
+  24:../infrarot.c **** int turn = 0;
+  25:../infrarot.c **** 
+  26:../infrarot.c **** extern float park_luecke_cm = 0;
+  27:../infrarot.c **** extern int park_luecke_genug = 0;
+  28:../infrarot.c **** extern float speed_in_cms, strecke_cm;
+  29:../infrarot.c **** 
+  30:../infrarot.c **** int min_parkluecke_laenge_cm = 70;
+  31:../infrarot.c **** 
+  32:../infrarot.c **** float parkluecke = 0;
+  33:../infrarot.c **** 
+  34:../infrarot.c **** XMC_VADC_RESULT_SIZE_t IR_ADC_Wert;
+  35:../infrarot.c **** 
+  36:../infrarot.c **** void IR_ADC_Wert_1ms (void)
+  37:../infrarot.c **** {
+ 175              	 .loc 3 37 0
+ 176              	 .cfi_startproc
+ 177              	 
+ 178              	 
+ 179 0000 80B5     	 push {r7,lr}
+ 180              	.LCFI11:
+ 181              	 .cfi_def_cfa_offset 8
+ 182              	 .cfi_offset 7,-8
+ 183              	 .cfi_offset 14,-4
+ 184 0002 00AF     	 add r7,sp,#0
+ 185              	.LCFI12:
+ 186              	 .cfi_def_cfa_register 7
+  38:../infrarot.c **** 	IR_ADC_Wert = ADC_MEASUREMENT_GetResult(&ADC_MEASUREMENT_Channel_A);
+ 187              	 .loc 3 38 0
+ 188 0004 3048     	 ldr r0,.L9
+ 189 0006 FFF7FEFF 	 bl ADC_MEASUREMENT_GetResult
+ 190 000a 0346     	 mov r3,r0
+ 191 000c 1A46     	 mov r2,r3
+ 192 000e 2F4B     	 ldr r3,.L9+4
+ 193 0010 1A80     	 strh r2,[r3]
+  39:../infrarot.c **** 
+  40:../infrarot.c **** 
+  41:../infrarot.c **** 	if (previous_ADC >= 1000 && IR_ADC_Wert <= 1000)
+ 194              	 .loc 3 41 0
+ 195 0012 2F4B     	 ldr r3,.L9+8
+ 196 0014 1B68     	 ldr r3,[r3]
+ 197 0016 B3F57A7F 	 cmp r3,#1000
+ 198 001a 10D3     	 bcc .L4
+ 199              	 .loc 3 41 0 is_stmt 0 discriminator 1
+ 200 001c 2B4B     	 ldr r3,.L9+4
+ 201 001e 1B88     	 ldrh r3,[r3]
+ 202 0020 B3F57A7F 	 cmp r3,#1000
+ 203 0024 0BD8     	 bhi .L4
+  42:../infrarot.c **** 		  {
+  43:../infrarot.c **** 			  check_start++;
+ 204              	 .loc 3 43 0 is_stmt 1
+ 205 0026 2B4B     	 ldr r3,.L9+12
+ 206 0028 1B68     	 ldr r3,[r3]
+ 207 002a 0133     	 adds r3,r3,#1
+ 208 002c 294A     	 ldr r2,.L9+12
+ 209 002e 1360     	 str r3,[r2]
+  44:../infrarot.c **** 			  DIGITAL_IO_ToggleOutput(&LED_TEST);
+ 210              	 .loc 3 44 0
+ 211 0030 2948     	 ldr r0,.L9+16
+ 212 0032 FFF7FEFF 	 bl DIGITAL_IO_ToggleOutput
+  45:../infrarot.c **** 			  parkluecke = strecke_cm;
+ 213              	 .loc 3 45 0
+ 214 0036 294B     	 ldr r3,.L9+20
+ 215 0038 1B68     	 ldr r3,[r3]
+ 216 003a 294A     	 ldr r2,.L9+24
+ 217 003c 1360     	 str r3,[r2]
+ 218              	.L4:
+  46:../infrarot.c **** 		  }
+  47:../infrarot.c **** 		  if (previous_ADC <= 1000 && IR_ADC_Wert >= 1000 && check_start == 1)
+ 219              	 .loc 3 47 0
+ 220 003e 244B     	 ldr r3,.L9+8
+ 221 0040 1B68     	 ldr r3,[r3]
+ 222 0042 B3F57A7F 	 cmp r3,#1000
+ 223 0046 39D8     	 bhi .L5
+ 224              	 .loc 3 47 0 is_stmt 0 discriminator 1
+ 225 0048 204B     	 ldr r3,.L9+4
+ 226 004a 1B88     	 ldrh r3,[r3]
+ 227 004c B3F57A7F 	 cmp r3,#1000
+ 228 0050 34D3     	 bcc .L5
+ 229              	 .loc 3 47 0 discriminator 2
+ 230 0052 204B     	 ldr r3,.L9+12
+ 231 0054 1B68     	 ldr r3,[r3]
+ 232 0056 012B     	 cmp r3,#1
+ 233 0058 30D1     	 bne .L5
+  48:../infrarot.c **** 		  {
+  49:../infrarot.c **** 			  check_start = 0;
+ 234              	 .loc 3 49 0 is_stmt 1
+ 235 005a 1E4B     	 ldr r3,.L9+12
+ 236 005c 0022     	 movs r2,#0
+ 237 005e 1A60     	 str r2,[r3]
+  50:../infrarot.c **** 
+  51:../infrarot.c **** 
+  52:../infrarot.c **** 
+  53:../infrarot.c **** 			  if (turn % 2 == 0)
+ 238              	 .loc 3 53 0
+ 239 0060 204B     	 ldr r3,.L9+28
+ 240 0062 1B68     	 ldr r3,[r3]
+ 241 0064 03F00103 	 and r3,r3,#1
+ 242 0068 002B     	 cmp r3,#0
+ 243 006a 1BD1     	 bne .L6
+  54:../infrarot.c **** 			  {
+  55:../infrarot.c **** 
+  56:../infrarot.c **** 				  parkluecke = strecke_cm - parkluecke;
+ 244              	 .loc 3 56 0
+ 245 006c 1B4B     	 ldr r3,.L9+20
+ 246 006e 93ED007A 	 flds s14,[r3]
+ 247 0072 1B4B     	 ldr r3,.L9+24
+ 248 0074 D3ED007A 	 flds s15,[r3]
+ 249 0078 77EE677A 	 fsubs s15,s14,s15
+ 250 007c 184B     	 ldr r3,.L9+24
+ 251 007e C3ED007A 	 fsts s15,[r3]
+  57:../infrarot.c **** 				  if(parkluecke >= min_parkluecke_laenge_cm){
+ 252              	 .loc 3 57 0
+ 253 0082 194B     	 ldr r3,.L9+32
+ 254 0084 1B68     	 ldr r3,[r3]
+ 255 0086 07EE903A 	 fmsr s15,r3
+ 256 008a B8EEE77A 	 fsitos s14,s15
+ 257 008e 144B     	 ldr r3,.L9+24
+ 258 0090 D3ED007A 	 flds s15,[r3]
+ 259 0094 B4EEE77A 	 fcmpes s14,s15
+ 260 0098 F1EE10FA 	 fmstat
+ 261 009c 02D8     	 bhi .L6
+  58:../infrarot.c **** 					  park_luecke_genug = 1;
+ 262              	 .loc 3 58 0
+ 263 009e 134B     	 ldr r3,.L9+36
+ 264 00a0 0122     	 movs r2,#1
+ 265 00a2 1A60     	 str r2,[r3]
+ 266              	.L6:
+  59:../infrarot.c **** 				  }
+  60:../infrarot.c **** 
+  61:../infrarot.c **** //				  sprintf(Luecke, "\f Abstand: %.2fcm | Strecke : %.2fcm\n\r",parkluecke,strecke_cm);
+  62:../infrarot.c **** //				  UART_Transmit(&UART_PROTOKOLL, Luecke, sizeof(Luecke));
+  63:../infrarot.c **** 
+  64:../infrarot.c **** 
+  65:../infrarot.c **** 			  }
+  66:../infrarot.c **** 
+  67:../infrarot.c **** 			  turn++;
+ 267              	 .loc 3 67 0
+ 268 00a4 0F4B     	 ldr r3,.L9+28
+ 269 00a6 1B68     	 ldr r3,[r3]
+ 270 00a8 0133     	 adds r3,r3,#1
+ 271 00aa 0E4A     	 ldr r2,.L9+28
+ 272 00ac 1360     	 str r3,[r2]
+  68:../infrarot.c **** 
+  69:../infrarot.c **** 			  if (turn >= 10) {
+ 273              	 .loc 3 69 0
+ 274 00ae 0D4B     	 ldr r3,.L9+28
+ 275 00b0 1B68     	 ldr r3,[r3]
+ 276 00b2 092B     	 cmp r3,#9
+ 277 00b4 02DD     	 ble .L5
+  70:../infrarot.c **** 		       turn = 0;
+ 278              	 .loc 3 70 0
+ 279 00b6 0B4B     	 ldr r3,.L9+28
+ 280 00b8 0022     	 movs r2,#0
+ 281 00ba 1A60     	 str r2,[r3]
+ 282              	.L5:
+  71:../infrarot.c **** 			  }
+  72:../infrarot.c **** 
+  73:../infrarot.c **** 
+  74:../infrarot.c **** 
+  75:../infrarot.c **** 		   }
+  76:../infrarot.c **** 
+  77:../infrarot.c **** 		  previous_ADC=IR_ADC_Wert;
+ 283              	 .loc 3 77 0
+ 284 00bc 034B     	 ldr r3,.L9+4
+ 285 00be 1B88     	 ldrh r3,[r3]
+ 286 00c0 1A46     	 mov r2,r3
+ 287 00c2 034B     	 ldr r3,.L9+8
+ 288 00c4 1A60     	 str r2,[r3]
+  78:../infrarot.c **** }
+ 289              	 .loc 3 78 0
+ 290 00c6 80BD     	 pop {r7,pc}
+ 291              	.L10:
+ 292              	 .align 2
+ 293              	.L9:
+ 294 00c8 00000000 	 .word ADC_MEASUREMENT_Channel_A_handle
+ 295 00cc 00000000 	 .word IR_ADC_Wert
+ 296 00d0 00000000 	 .word previous_ADC
+ 297 00d4 00000000 	 .word check_start
+ 298 00d8 00000000 	 .word LED_TEST
+ 299 00dc 00000000 	 .word strecke_cm
+ 300 00e0 00000000 	 .word parkluecke
+ 301 00e4 00000000 	 .word turn
+ 302 00e8 00000000 	 .word min_parkluecke_laenge_cm
+ 303 00ec 00000000 	 .word park_luecke_genug
+ 304              	 .cfi_endproc
+ 305              	.LFE495:
+ 307              	 .section .text.Infrarot_Init,"ax",%progbits
+ 308              	 .align 2
+ 309              	 .global Infrarot_Init
+ 310              	 .thumb
+ 311              	 .thumb_func
+ 313              	Infrarot_Init:
+ 314              	.LFB496:
+  79:../infrarot.c **** 
+  80:../infrarot.c **** void Infrarot_Init(void)
+  81:../infrarot.c **** {
+ 315              	 .loc 3 81 0
+ 316              	 .cfi_startproc
+ 317              	 
+ 318              	 
+ 319 0000 80B5     	 push {r7,lr}
+ 320              	.LCFI13:
+ 321              	 .cfi_def_cfa_offset 8
+ 322              	 .cfi_offset 7,-8
+ 323              	 .cfi_offset 14,-4
+ 324 0002 00AF     	 add r7,sp,#0
+ 325              	.LCFI14:
+ 326              	 .cfi_def_cfa_register 7
+  82:../infrarot.c **** 	Timer_IR = SYSTIMER_CreateTimer(PERIODIC_READ,SYSTIMER_MODE_PERIODIC,(void*)IR_ADC_Wert_1ms,NULL);
+ 327              	 .loc 3 82 0
+ 328 0004 42F21070 	 movw r0,#10000
+ 329 0008 0121     	 movs r1,#1
+ 330 000a 064A     	 ldr r2,.L12
+ 331 000c 0023     	 movs r3,#0
+ 332 000e FFF7FEFF 	 bl SYSTIMER_CreateTimer
+ 333 0012 0246     	 mov r2,r0
+ 334 0014 044B     	 ldr r3,.L12+4
+ 335 0016 1A60     	 str r2,[r3]
+  83:../infrarot.c **** 	SYSTIMER_StartTimer(Timer_IR);
+ 336              	 .loc 3 83 0
+ 337 0018 034B     	 ldr r3,.L12+4
+ 338 001a 1B68     	 ldr r3,[r3]
+ 339 001c 1846     	 mov r0,r3
+ 340 001e FFF7FEFF 	 bl SYSTIMER_StartTimer
+  84:../infrarot.c **** }
+ 341              	 .loc 3 84 0
+ 342 0022 80BD     	 pop {r7,pc}
+ 343              	.L13:
+ 344              	 .align 2
+ 345              	.L12:
+ 346 0024 00000000 	 .word IR_ADC_Wert_1ms
+ 347 0028 00000000 	 .word Timer_IR
+ 348              	 .cfi_endproc
+ 349              	.LFE496:
+ 351              	 .text
+ 352              	.Letext0:
+ 353              	 .file 4 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 354              	 .file 5 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 355              	 .file 6 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 356              	 .file 7 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc4_gpio.h"
+ 357              	 .file 8 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_usic.h"
+ 358              	 .file 9 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/SYSTIMER/systimer.h"
+ 359              	 .file 10 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_vadc.h"
+ 360              	 .file 11 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/ADC_MEASUREMENT/adc_measurement.h"
+ 361              	 .file 12 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 362              	 .file 13 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Include/core_cm4.h"
+ 363              	 .file 14 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 364              	 .file 15 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/DIGITAL_IO/digital_io_extern.h"
+ 365              	 .file 16 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/ADC_MEASUREMENT/adc_measurement_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 infrarot.c
+    {standard input}:20     .text.XMC_GPIO_ToggleOutput:00000000 $t
+    {standard input}:24     .text.XMC_GPIO_ToggleOutput:00000000 XMC_GPIO_ToggleOutput
+    {standard input}:68     .text.DIGITAL_IO_ToggleOutput:00000000 $t
+    {standard input}:72     .text.DIGITAL_IO_ToggleOutput:00000000 DIGITAL_IO_ToggleOutput
+                            *COM*:00000064 IR_ADC
+                            *COM*:00000064 Luecke
+                            *COM*:00000004 Timer_IR
+    {standard input}:119    .bss.previous_ADC:00000000 previous_ADC
+    {standard input}:116    .bss.previous_ADC:00000000 $d
+                            *COM*:00000004 elapsed_time
+                            *COM*:00000004 time_in_s
+    {standard input}:128    .bss.check_start:00000000 check_start
+    {standard input}:125    .bss.check_start:00000000 $d
+    {standard input}:135    .bss.turn:00000000 turn
+    {standard input}:132    .bss.turn:00000000 $d
+    {standard input}:142    .bss.park_luecke_cm:00000000 park_luecke_cm
+    {standard input}:139    .bss.park_luecke_cm:00000000 $d
+    {standard input}:149    .bss.park_luecke_genug:00000000 park_luecke_genug
+    {standard input}:146    .bss.park_luecke_genug:00000000 $d
+    {standard input}:156    .data.min_parkluecke_laenge_cm:00000000 min_parkluecke_laenge_cm
+    {standard input}:153    .data.min_parkluecke_laenge_cm:00000000 $d
+    {standard input}:163    .bss.parkluecke:00000000 parkluecke
+    {standard input}:160    .bss.parkluecke:00000000 $d
+                            *COM*:00000002 IR_ADC_Wert
+    {standard input}:167    .text.IR_ADC_Wert_1ms:00000000 $t
+    {standard input}:172    .text.IR_ADC_Wert_1ms:00000000 IR_ADC_Wert_1ms
+    {standard input}:294    .text.IR_ADC_Wert_1ms:000000c8 $d
+    {standard input}:308    .text.Infrarot_Init:00000000 $t
+    {standard input}:313    .text.Infrarot_Init:00000000 Infrarot_Init
+    {standard input}:346    .text.Infrarot_Init:00000024 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+ADC_MEASUREMENT_GetResult
+ADC_MEASUREMENT_Channel_A_handle
+LED_TEST
+strecke_cm
+SYSTIMER_CreateTimer
+SYSTIMER_StartTimer

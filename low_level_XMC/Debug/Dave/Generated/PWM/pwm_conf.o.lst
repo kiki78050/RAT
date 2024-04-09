@@ -1,0 +1,248 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pwm_conf.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .global PWM_LENKUNG_compare_config
+  20              	 .section .rodata.PWM_LENKUNG_compare_config,"a",%progbits
+  21              	 .align 2
+  24              	PWM_LENKUNG_compare_config:
+  25 0000 00       	 .byte 0
+  26 0001 00       	 .byte 0
+  27 0002 00       	 .byte 0
+  28 0003 00       	 .byte 0
+  29 0004 00       	 .byte 0
+  30 0005 000000   	 .space 3
+  31 0008 00000000 	 .word 0
+  32 000c 06       	 .byte 6
+  33 000d 00       	 .byte 0
+  34 000e 0000     	 .space 2
+  35              	 .global PWM_LENKUNG_gpio_out_config
+  36              	 .section .rodata.PWM_LENKUNG_gpio_out_config,"a",%progbits
+  37              	 .align 2
+  40              	PWM_LENKUNG_gpio_out_config:
+  41 0000 98       	 .byte -104
+  42 0001 000000   	 .space 3
+  43 0004 00000100 	 .word 65536
+  44 0008 04       	 .byte 4
+  45 0009 000000   	 .space 3
+  46              	 .global PWM_LENKUNG
+  47              	 .section .data.PWM_LENKUNG,"aw",%progbits
+  48              	 .align 2
+  51              	PWM_LENKUNG:
+  52 0000 00000000 	 .word GLOBAL_CCU8_0
+  53 0004 00000240 	 .word 1073872896
+  54 0008 00020240 	 .word 1073873408
+  55 000c 00000000 	 .word PWM_LENKUNG_compare_config
+  56 0010 00800248 	 .word 1208123392
+  57 0014 00000000 	 .word PWM_LENKUNG_gpio_out_config
+  58 0018 9E830000 	 .word 33694
+  59 001c 14900000 	 .word 36884
+  60 0020 61030000 	 .word 865
+  61 0024 50000000 	 .word 80
+  62 0028 01       	 .byte 1
+  63 0029 02       	 .byte 2
+  64 002a 00       	 .byte 0
+  65 002b 00       	 .byte 0
+  66 002c 04       	 .byte 4
+  67 002d 00       	 .byte 0
+  68 002e 01       	 .byte 1
+  69 002f 01       	 .byte 1
+  70 0030 00       	 .byte 0
+  71 0031 00       	 .byte 0
+  72 0032 0000     	 .space 2
+  73              	 .global PWM_MOTOR_compare_config
+  74              	 .section .rodata.PWM_MOTOR_compare_config,"a",%progbits
+  75              	 .align 2
+  78              	PWM_MOTOR_compare_config:
+  79 0000 00       	 .byte 0
+  80 0001 00       	 .byte 0
+  81 0002 00       	 .byte 0
+  82 0003 00       	 .byte 0
+  83 0004 00       	 .byte 0
+  84 0005 000000   	 .space 3
+  85 0008 00000000 	 .word 0
+  86 000c 06       	 .byte 6
+  87 000d 00       	 .byte 0
+  88 000e 0000     	 .space 2
+  89              	 .global PWM_MOTOR_gpio_out_config
+  90              	 .section .rodata.PWM_MOTOR_gpio_out_config,"a",%progbits
+  91              	 .align 2
+  94              	PWM_MOTOR_gpio_out_config:
+  95 0000 98       	 .byte -104
+  96 0001 000000   	 .space 3
+  97 0004 00000100 	 .word 65536
+  98 0008 04       	 .byte 4
+  99 0009 000000   	 .space 3
+ 100              	 .global PWM_MOTOR
+ 101              	 .section .data.PWM_MOTOR,"aw",%progbits
+ 102              	 .align 2
+ 105              	PWM_MOTOR:
+ 106 0000 00000000 	 .word GLOBAL_CCU8_0
+ 107 0004 00000240 	 .word 1073872896
+ 108 0008 00010240 	 .word 1073873152
+ 109 000c 00000000 	 .word PWM_MOTOR_compare_config
+ 110 0010 00850248 	 .word 1208124672
+ 111 0014 00000000 	 .word PWM_MOTOR_gpio_out_config
+ 112 0018 8C830000 	 .word 33676
+ 113 001c 14900000 	 .word 36884
+ 114 0020 65030000 	 .word 869
+ 115 0024 05000000 	 .word 5
+ 116 0028 01       	 .byte 1
+ 117 0029 02       	 .byte 2
+ 118 002a 00       	 .byte 0
+ 119 002b 00       	 .byte 0
+ 120 002c 0B       	 .byte 11
+ 121 002d 00       	 .byte 0
+ 122 002e 00       	 .byte 0
+ 123 002f 01       	 .byte 1
+ 124 0030 00       	 .byte 0
+ 125 0031 00       	 .byte 0
+ 126 0032 0000     	 .space 2
+ 127              	 .global PWM_ULTRA_compare_config
+ 128              	 .section .rodata.PWM_ULTRA_compare_config,"a",%progbits
+ 129              	 .align 2
+ 132              	PWM_ULTRA_compare_config:
+ 133 0000 00       	 .byte 0
+ 134 0001 00       	 .byte 0
+ 135 0002 00       	 .byte 0
+ 136 0003 00       	 .byte 0
+ 137 0004 08       	 .byte 8
+ 138 0005 00       	 .byte 0
+ 139 0006 0000     	 .space 2
+ 140              	 .global PWM_ULTRA_gpio_out_config
+ 141              	 .section .rodata.PWM_ULTRA_gpio_out_config,"a",%progbits
+ 142              	 .align 2
+ 145              	PWM_ULTRA_gpio_out_config:
+ 146 0000 98       	 .byte -104
+ 147 0001 000000   	 .space 3
+ 148 0004 00000100 	 .word 65536
+ 149 0008 04       	 .byte 4
+ 150 0009 000000   	 .space 3
+ 151              	 .global PWM_ULTRA
+ 152              	 .section .data.PWM_ULTRA,"aw",%progbits
+ 153              	 .align 2
+ 156              	PWM_ULTRA:
+ 157 0000 00000000 	 .word GLOBAL_CCU4_0
+ 158 0004 00400140 	 .word 1073823744
+ 159 0008 00440140 	 .word 1073824768
+ 160 000c 00000000 	 .word PWM_ULTRA_compare_config
+ 161 0010 00830248 	 .word 1208124160
+ 162 0014 00000000 	 .word PWM_ULTRA_gpio_out_config
+ 163 0018 4C890000 	 .word 35148
+ 164 001c 53890000 	 .word 35155
+ 165 0020 02000000 	 .word 2
+ 166 0024 00500000 	 .word 20480
+ 167 0028 00       	 .byte 0
+ 168 0029 02       	 .byte 2
+ 169 002a 00       	 .byte 0
+ 170 002b 00       	 .byte 0
+ 171 002c 0B       	 .byte 11
+ 172 002d 02       	 .byte 2
+ 173 002e 03       	 .byte 3
+ 174 002f 00       	 .byte 0
+ 175 0030 00       	 .byte 0
+ 176 0031 00       	 .byte 0
+ 177 0032 0000     	 .space 2
+ 178              	 .global PWM_BUZZER_compare_config
+ 179              	 .section .rodata.PWM_BUZZER_compare_config,"a",%progbits
+ 180              	 .align 2
+ 183              	PWM_BUZZER_compare_config:
+ 184 0000 00000000 	 .space 8
+ 184      00000000 
+ 185              	 .global PWM_BUZZER_gpio_out_config
+ 186              	 .section .rodata.PWM_BUZZER_gpio_out_config,"a",%progbits
+ 187              	 .align 2
+ 190              	PWM_BUZZER_gpio_out_config:
+ 191 0000 98       	 .byte -104
+ 192 0001 000000   	 .space 3
+ 193 0004 00000100 	 .word 65536
+ 194 0008 04       	 .byte 4
+ 195 0009 000000   	 .space 3
+ 196              	 .global PWM_BUZZER
+ 197              	 .section .data.PWM_BUZZER,"aw",%progbits
+ 198              	 .align 2
+ 201              	PWM_BUZZER:
+ 202 0000 00000000 	 .word GLOBAL_CCU4_0
+ 203 0004 00400140 	 .word 1073823744
+ 204 0008 00410140 	 .word 1073824000
+ 205 000c 00000000 	 .word PWM_BUZZER_compare_config
+ 206 0010 00830248 	 .word 1208124160
+ 207 0014 00000000 	 .word PWM_BUZZER_gpio_out_config
+ 208 0018 1F0A0000 	 .word 2591
+ 209 001c 3F0B0000 	 .word 2879
+ 210 0020 E8030000 	 .word 1000
+ 211 0024 05000000 	 .word 5
+ 212 0028 00       	 .byte 0
+ 213 0029 02       	 .byte 2
+ 214 002a 00       	 .byte 0
+ 215 002b 00       	 .byte 0
+ 216 002c 00       	 .byte 0
+ 217 002d 02       	 .byte 2
+ 218 002e 00       	 .byte 0
+ 219 002f 01       	 .byte 1
+ 220 0030 00       	 .byte 0
+ 221 0031 00       	 .byte 0
+ 222 0032 0000     	 .space 2
+ 223              	 .text
+ 224              	.Letext0:
+ 225              	 .file 1 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 226              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 227              	 .file 3 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 228              	 .file 4 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_gpio.h"
+ 229              	 .file 5 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc4_gpio.h"
+ 230              	 .file 6 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_ccu4.h"
+ 231              	 .file 7 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc4_scu.h"
+ 232              	 .file 8 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/GLOBAL_CCU4/global_ccu4.h"
+ 233              	 .file 9 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/XMCLib/inc/xmc_ccu8.h"
+ 234              	 .file 10 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/GLOBAL_CCU8/global_ccu8.h"
+ 235              	 .file 11 "../Dave/Generated/PWM/pwm.h"
+ 236              	 .file 12 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 237              	 .file 13 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Include/core_cm4.h"
+ 238              	 .file 14 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 239              	 .file 15 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/GLOBAL_CCU4/global_ccu4_extern.h"
+ 240              	 .file 16 "C:/daveProjects/autoomes-fahren-und-intelligente-sensoren/xmc_Antrieb_lenkung/Dave/Generated/GLOBAL_CCU8/global_ccu8_extern.h"
+ 241              	 .file 17 "../Dave/Generated/PWM/pwm_conf.c"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pwm_conf.c
+    {standard input}:24     .rodata.PWM_LENKUNG_compare_config:00000000 PWM_LENKUNG_compare_config
+    {standard input}:21     .rodata.PWM_LENKUNG_compare_config:00000000 $d
+    {standard input}:40     .rodata.PWM_LENKUNG_gpio_out_config:00000000 PWM_LENKUNG_gpio_out_config
+    {standard input}:37     .rodata.PWM_LENKUNG_gpio_out_config:00000000 $d
+    {standard input}:51     .data.PWM_LENKUNG:00000000 PWM_LENKUNG
+    {standard input}:48     .data.PWM_LENKUNG:00000000 $d
+    {standard input}:78     .rodata.PWM_MOTOR_compare_config:00000000 PWM_MOTOR_compare_config
+    {standard input}:75     .rodata.PWM_MOTOR_compare_config:00000000 $d
+    {standard input}:94     .rodata.PWM_MOTOR_gpio_out_config:00000000 PWM_MOTOR_gpio_out_config
+    {standard input}:91     .rodata.PWM_MOTOR_gpio_out_config:00000000 $d
+    {standard input}:105    .data.PWM_MOTOR:00000000 PWM_MOTOR
+    {standard input}:102    .data.PWM_MOTOR:00000000 $d
+    {standard input}:132    .rodata.PWM_ULTRA_compare_config:00000000 PWM_ULTRA_compare_config
+    {standard input}:129    .rodata.PWM_ULTRA_compare_config:00000000 $d
+    {standard input}:145    .rodata.PWM_ULTRA_gpio_out_config:00000000 PWM_ULTRA_gpio_out_config
+    {standard input}:142    .rodata.PWM_ULTRA_gpio_out_config:00000000 $d
+    {standard input}:156    .data.PWM_ULTRA:00000000 PWM_ULTRA
+    {standard input}:153    .data.PWM_ULTRA:00000000 $d
+    {standard input}:183    .rodata.PWM_BUZZER_compare_config:00000000 PWM_BUZZER_compare_config
+    {standard input}:180    .rodata.PWM_BUZZER_compare_config:00000000 $d
+    {standard input}:190    .rodata.PWM_BUZZER_gpio_out_config:00000000 PWM_BUZZER_gpio_out_config
+    {standard input}:187    .rodata.PWM_BUZZER_gpio_out_config:00000000 $d
+    {standard input}:201    .data.PWM_BUZZER:00000000 PWM_BUZZER
+    {standard input}:198    .data.PWM_BUZZER:00000000 $d
+
+UNDEFINED SYMBOLS
+GLOBAL_CCU8_0
+GLOBAL_CCU4_0
